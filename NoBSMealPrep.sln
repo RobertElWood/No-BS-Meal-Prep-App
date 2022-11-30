@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.3.32929.385
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NoBSMealPrep", "NoBSMealPrep\NoBSMealPrep.csproj", "{F02CA8EF-B868-4357-AD4B-1F6B90AF2966}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{F02CA8EF-B868-4357-AD4B-1F6B90AF2966}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F02CA8EF-B868-4357-AD4B-1F6B90AF2966}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F02CA8EF-B868-4357-AD4B-1F6B90AF2966}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F02CA8EF-B868-4357-AD4B-1F6B90AF2966}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {FBBE0974-C1E7-444D-A05F-586A9A510CF7}
+	EndGlobalSection
+EndGlobal

@@ -129,5 +129,8 @@
       }
     }
   },
-  "defaultProject": "NoBSMealPrep"
+  "defaultProject": "NoBSMealPrep",
+  "cli": {
+    "analytics": false
+  }
 }

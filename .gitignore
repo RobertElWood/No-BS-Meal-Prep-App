@@ -9,6 +9,7 @@
 
 # User-specific files (MonoDevelop/Xamarin Studio)
 *.userprefs
+.angular/cache/
 
 # Build results
 [Dd]ebug/

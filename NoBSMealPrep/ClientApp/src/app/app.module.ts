@@ -37,4 +37,5 @@ import { RecipeViewComponent } from './components/recipe-view/recipe-view.compon
   providers: [],
   bootstrap: [AppComponent]
 })
+
 export class AppModule { }

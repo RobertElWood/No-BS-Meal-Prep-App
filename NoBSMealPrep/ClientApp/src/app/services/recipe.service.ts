@@ -2,7 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { RecipeList } from 'src/interfaces/RecipeList';
-import { Recipe } from 'src/interfaces/Recipe';
+import { SingleRecipe } from 'src/interfaces/SingleRecipe';
 import { Secret } from '../secret';
 
 @Injectable({
@@ -13,9 +13,8 @@ export class RecipeService {
 
 	constructor(private http: HttpClient) {}
 
-	//split and join keywords before call, keyword spaces = %20
-	//(typeof type !== 'undefined' && typeof health !== 'undefined')
 	getRecipes(keywords: string, health?: string, type?: string): Observable<RecipeList> {
+
 		let keyWordsFormatted = this.formatKeywords(keywords);
 
 		if (health !== 'test' && type !== 'test') { //if there is an entry for health AND type
@@ -41,10 +40,10 @@ export class RecipeService {
 		}
 	}
 
-	getSpecificRecipe(singleId:string) : Observable<Recipe> { //get specific recipe
-		return this.http.get<Recipe>(
+	getSpecificRecipe(singleId:string) : Observable<SingleRecipe> { //get specific recipe
+		return this.http.get<SingleRecipe>(
 				this.baseURL +
-					`${singleId}?type=public&app_id=${Secret.app_id}&app_key=${Secret.app_key}`)
+					`/${singleId}?type=public&app_id=${Secret.app_id}&app_key=${Secret.app_key}`);
 	}
 
 	formatKeywords(keywords: string): string {

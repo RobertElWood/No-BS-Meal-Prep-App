@@ -18,27 +18,34 @@ export class RecipeService {
 	getRecipes(keywords: string, health?: string, type?: string): Observable<RecipeList> {
 		let keyWordsFormatted = this.formatKeywords(keywords);
 
-		if (health !== 'test' && type !== 'test') {
+		if (health !== 'test' && type !== 'test') { //if there is an entry for health AND type
 			return this.http.get<RecipeList>(
 				this.baseURL +
 					`?type=public&q=${keyWordsFormatted}&app_id=${Secret.app_id}&app_key=${Secret.app_key}&health=${health}&cuisineType=${type}`
 			);
-		} else if (type !== 'test' && health === 'test') {
+		} else if (type !== 'test' && health === 'test') { // if there is no type but there is health
 			return this.http.get<RecipeList>(
 				this.baseURL +
 					`?type=public&q=${keyWordsFormatted}&app_id=${Secret.app_id}&app_key=${Secret.app_key}&cuisineType=${type}`
 			);
-		} else {
+		} else if (type == 'test' && health !== 'test') { //if there is type but no health
 			return this.http.get<RecipeList>(
 				this.baseURL +
 					`?type=public&q=${keyWordsFormatted}&app_id=${Secret.app_id}&app_key=${Secret.app_key}&health=${health}`
 			);
+		} else {
+			return this.http.get<RecipeList>( //if there is no type OR health
+				this.baseURL +
+					`?type=public&q=${keyWordsFormatted}&app_id=${Secret.app_id}&app_key=${Secret.app_key}`
+			);
 		}
 	}
 
-	// getSpecificRecipe() : Observable<Recipe> {
-
-	// }
+	getSpecificRecipe(singleId:string) : Observable<Recipe> { //get specific recipe
+		return this.http.get<Recipe>(
+				this.baseURL +
+					`${singleId}?type=public&app_id=${Secret.app_id}&app_key=${Secret.app_key}`)
+	}
 
 	formatKeywords(keywords: string): string {
 		let keyWordsFormatted: string = keywords.split(' ').join('%20');

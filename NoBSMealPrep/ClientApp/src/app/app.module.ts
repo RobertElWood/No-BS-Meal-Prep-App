@@ -10,6 +10,7 @@ import { HomeComponent } from './home/home.component';
 import { CounterComponent } from './counter/counter.component';
 import { FetchDataComponent } from './fetch-data/fetch-data.component';
 import { RecipeListComponent } from './components/recipe-list/recipe-list.component';
+import { RecipeViewComponent } from './components/recipe-view/recipe-view.component';
 
 @NgModule({
   declarations: [
@@ -19,6 +20,7 @@ import { RecipeListComponent } from './components/recipe-list/recipe-list.compon
     CounterComponent,
     FetchDataComponent,
     RecipeListComponent,
+    RecipeViewComponent,
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
@@ -29,6 +31,7 @@ import { RecipeListComponent } from './components/recipe-list/recipe-list.compon
       { path: 'counter', component: CounterComponent },
       { path: 'fetch-data', component: FetchDataComponent },
       { path: 'recipe-list', component: RecipeListComponent},
+      { path: 'recipe-view/:id', component: RecipeViewComponent},
     ])
   ],
   providers: [],

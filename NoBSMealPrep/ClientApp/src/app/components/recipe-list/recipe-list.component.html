@@ -48,12 +48,17 @@
     <option value="South%20East%20Asian">South East Asian</option>
 </select>
 </div>
-<div *ngIf="recipes[0] !== null">
-<!-- <div *ngFor="let r of recipes[0].hits">
-    <p>{{r.recipe.label}}</p>
-    <br>
-    <img src="{{r.recipe.image}}">
-<br>
-<br>
-</div> -->
+
+
+<div *ngIf="recipes[0] !== undefined">
+    <div *ngFor="let r of recipes[0].hits">
+        <p>Recipe Name: {{r.recipe.label}}</p>
+        <br>
+        <img src="{{r.recipe.image}}">
+    <!-- <button [routerLink]="['/recipe-view', ]">View Recipe Details</button> -->
+    <button (click)="getId(r.recipe.uri)">View Recipe Details</button>
+    
+        <br>
+        <br>
+    </div>
 </div>

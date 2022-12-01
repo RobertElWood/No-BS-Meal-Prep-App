@@ -3,30 +3,28 @@ import { RecipeService } from 'src/app/services/recipe.service';
 import { RecipeList } from 'src/interfaces/RecipeList';
 
 @Component({
-  selector: 'app-recipe-list',
-  templateUrl: './recipe-list.component.html',
-  styleUrls: ['./recipe-list.component.css']
+	selector: 'app-recipe-list',
+	templateUrl: './recipe-list.component.html',
+	styleUrls: [ './recipe-list.component.css' ]
 })
 export class RecipeListComponent implements OnInit {
+	recipes: RecipeList[] = [];
 
-  recipes : RecipeList[] = [];
+	keywords: string = '';
 
-  keywords : any = undefined;
+	health: string = 'test';
 
-  health : any = undefined;
+	type: string = 'test';
 
-  type : any = undefined;
+	constructor(private recipeAPI: RecipeService) {}
 
-  constructor(private recipeAPI : RecipeService) { }
+	searchRecipes() {
+		console.log(this.health);
+		console.log(this.type);
+		this.recipeAPI.getRecipes(this.keywords, this.health, this.type).subscribe((results: RecipeList) => {
+			this.recipes.push(results);
+		});
+	}
 
-  searchRecipes(){
-    this.recipeAPI.getRecipes(this.keywords, this.health, this.type).subscribe(
-      (results : RecipeList) => {
-        this.recipes.push(results)
-      });
-  }
-
-  ngOnInit(): void {
-  }
-
+	ngOnInit(): void {}
 }

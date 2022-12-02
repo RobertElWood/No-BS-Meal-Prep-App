@@ -28,10 +28,10 @@ namespace NoBSMealPrep.Controllers
         }
 
         // GET: api/User/5
-        [HttpGet("{id}")]
-        public async Task<ActionResult<User>> GetUser(int id)
+        [HttpGet("{logininfo}")]
+        public async Task<ActionResult<User>> GetUser(string logininfo)
         {
-            var user = await _context.Users.FindAsync(id);
+            var user = await _context.Users.FindAsync(logininfo);
 
             if (user == null)
             {

@@ -50,4 +50,6 @@ export class RecipeService {
 		let keyWordsFormatted: string = keywords.split(' ').join('%20');
 		return keyWordsFormatted;
 	}
+
+	
 }

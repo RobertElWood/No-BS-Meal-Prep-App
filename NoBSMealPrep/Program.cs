@@ -1,3 +1,5 @@
+using NoBSMealPrep.Models;
+
 namespace NoBSMealPrep
 {
     public class Program
@@ -9,6 +11,10 @@ namespace NoBSMealPrep
             // Add services to the container.
 
             builder.Services.AddControllersWithViews();
+
+            //added for MealDB API
+            builder.Services.AddDbContext<MealPrepDbContext>();
+
 
             var app = builder.Build();
 

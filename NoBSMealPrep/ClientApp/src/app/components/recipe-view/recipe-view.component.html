@@ -1,5 +1,5 @@
 <h2>Recipe Details:</h2>
-<div *ngIf="foundRecipe[0] !== null">
+<div *ngIf="foundRecipe[0] !== undefined">
         <h3>{{foundRecipe[0].recipe.label}}</h3>
     <br>
         <img src="{{foundRecipe[0].recipe.image}}">    
@@ -12,13 +12,19 @@
     <br>
         <p>Calories: {{foundRecipe[0].recipe.calories}}</p>
     <br>
+        <p>Health Information:</p>
+        <div *ngFor="let h of foundRecipe[0].recipe.healthLabels">
+            <p>{{h}}</p>
+        </div>
+    <br>
         <p>Servings: {{foundRecipe[0].recipe.yield}}</p>
     <br>
         <div *ngFor="let ing of foundRecipe[0].recipe.ingredientLines; index as i">
             <p>Ingredient {{i+1}}: {{ing}}</p>
         </div>
     <br>
-        <p>Instructions: {{foundRecipe[0].recipe.instructions}}</p>
+        <p>Instructions:</p>
+        <a href="{{foundRecipe[0].recipe.url}}">{{foundRecipe[0].recipe.url}}</a>
     <br>
     <br>
         <button (click)="onBack()">Back to Recipe Search</button>

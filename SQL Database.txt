@@ -1,0 +1,25 @@
+--create database MealPrepDB;
+
+--create table FavoriteRecipes(
+--Id int primary key identity (1,1),
+--[Label] nvarchar(75),
+--[Image] nvarchar(100),
+--URI nvarchar(100),
+--Calories float);
+
+--create table GroceryList(
+--Id int primary key identity (1,1),
+--Food nvarchar(50),
+--Quantity float,
+--Measure nvarchar(30),
+--ParentRecipe int foreign key references FavoriteRecipes(Id));
+
+--create table Users(
+--Id int primary key identity (1,1),
+--Username nvarchar(50),
+--Logininfo nvarchar(75));
+
+--Alter table FavoriteRecipes
+--Add Favoritedby int foreign key references Users(Id);
+
+--select * from FavoriteRecipes;

@@ -11,6 +11,8 @@ import { CounterComponent } from './counter/counter.component';
 import { FetchDataComponent } from './fetch-data/fetch-data.component';
 import { RecipeListComponent } from './components/recipe-list/recipe-list.component';
 import { RecipeViewComponent } from './components/recipe-view/recipe-view.component';
+import { GoogleLoginProvider, SocialAuthServiceConfig, SocialLoginModule } from '@abacritt/angularx-social-login';
+import { Secret } from './secret';
 
 @NgModule({
   declarations: [
@@ -26,6 +28,7 @@ import { RecipeViewComponent } from './components/recipe-view/recipe-view.compon
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
     HttpClientModule,
     FormsModule,
+    SocialLoginModule,
     RouterModule.forRoot([
       { path: '', component: HomeComponent, pathMatch: 'full' },
       { path: 'counter', component: CounterComponent },
@@ -34,7 +37,23 @@ import { RecipeViewComponent } from './components/recipe-view/recipe-view.compon
       { path: 'recipe-view/:id', component: RecipeViewComponent},
     ])
   ],
-  providers: [],
+  providers: [
+    {
+      provide: 'SocialAuthServiceConfig',
+      useValue: {
+        autoLogin: false,
+        providers: [
+          {
+            id: GoogleLoginProvider.PROVIDER_ID,
+            provider: new GoogleLoginProvider(
+              Secret.client_id
+            )
+          }
+        ]
+      } as SocialAuthServiceConfig,
+    }
+
+  ],
   bootstrap: [AppComponent]
 })
 

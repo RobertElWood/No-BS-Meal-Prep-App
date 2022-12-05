@@ -13,6 +13,8 @@ import { RecipeListComponent } from './components/recipe-list/recipe-list.compon
 import { RecipeViewComponent } from './components/recipe-view/recipe-view.component';
 import { GoogleLoginProvider, SocialAuthServiceConfig, SocialLoginModule } from '@abacritt/angularx-social-login';
 import { Secret } from './secret';
+import { FavoritesViewComponent } from './components/favorites-view/favorites-view.component';
+import { FavoritesListComponent } from './components/favorites-list/favorites-list.component';
 
 @NgModule({
   declarations: [
@@ -23,6 +25,8 @@ import { Secret } from './secret';
     FetchDataComponent,
     RecipeListComponent,
     RecipeViewComponent,
+    FavoritesViewComponent,
+    FavoritesListComponent,
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
@@ -35,6 +39,8 @@ import { Secret } from './secret';
       { path: 'fetch-data', component: FetchDataComponent },
       { path: 'recipe-list', component: RecipeListComponent},
       { path: 'recipe-view/:id', component: RecipeViewComponent},
+      { path: 'favorites-view/:id', component: FavoritesViewComponent},
+      { path: 'favorites-list', component: FavoritesListComponent},
     ])
   ],
   providers: [

@@ -50,10 +50,10 @@ export class RecipeViewComponent implements OnInit {
       this.searchID = params.get('id');
       this.recipeAPI.getSpecificRecipe(this.searchID).subscribe((result : SingleRecipe) => {this.foundRecipe.push(result)});
       
-    this.authService.authState.subscribe((user) => {
-      this.user = user;
-      this.loggedIn = (user != null);
-    });
+      this.authService.authState.subscribe((user) => {
+        this.user = user;
+        this.loggedIn = (user != null);
+      });
 
     });
   }
@@ -66,7 +66,7 @@ export class RecipeViewComponent implements OnInit {
 
   //This navigates back to the recipe search view when the user clicks the button in recipe-view.component.html
   onBack() : void {
-    this.router.navigate(['recipe-list'])
+    this.router.navigate(['recipe-list']);
   }
 
   checkUser() {
@@ -105,7 +105,7 @@ export class RecipeViewComponent implements OnInit {
 
         console.log("IF: the id of the person posted is: " + this.userPosted.id);
 
-        this.favRecipeAPI.postFavoriteRecipe(this.savedRecipe).subscribe((resultrecipe: FavoriteRecipe) => {console.log("IF: Fav Recpie is: " + resultrecipe)});
+        this.favRecipeAPI.postFavoriteRecipe(this.savedRecipe).subscribe((resultrecipe: FavoriteRecipe) => {console.log(resultrecipe)});
         alert("Your recipe has been successfully saved!");
       });
       
@@ -121,7 +121,7 @@ export class RecipeViewComponent implements OnInit {
 
         console.log("ELSE: the id of the person posted is:" + this.userPosted.id);
 
-        this.favRecipeAPI.postFavoriteRecipe(this.savedRecipe).subscribe((resultrecipe: FavoriteRecipe) => {"ELSE: Fav Recpie is: " + console.log(resultrecipe)});
+        this.favRecipeAPI.postFavoriteRecipe(this.savedRecipe).subscribe((resultrecipe: FavoriteRecipe) => {console.log(resultrecipe)});
         alert("Your recipe has been successfully saved!");
       });
     }

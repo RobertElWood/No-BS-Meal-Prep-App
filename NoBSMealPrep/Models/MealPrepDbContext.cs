@@ -29,9 +29,9 @@ public partial class MealPrepDbContext : DbContext
     {
         modelBuilder.Entity<FavoriteRecipe>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("PK__Favorite__3214EC07384DE480");
+            entity.HasKey(e => e.Id).HasName("PK__Favorite__3214EC079F8648F7");
 
-            entity.Property(e => e.Image).HasMaxLength(500);
+            entity.Property(e => e.Image).HasMaxLength(4000);
             entity.Property(e => e.Label).HasMaxLength(75);
             entity.Property(e => e.Uri)
                 .HasMaxLength(500)
@@ -39,12 +39,12 @@ public partial class MealPrepDbContext : DbContext
 
             entity.HasOne(d => d.FavoritedbyNavigation).WithMany(p => p.FavoriteRecipes)
                 .HasForeignKey(d => d.Favoritedby)
-                .HasConstraintName("FK__FavoriteR__Favor__48CFD27E");
+                .HasConstraintName("FK__FavoriteR__Favor__3B75D760");
         });
 
         modelBuilder.Entity<GroceryList>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("PK__GroceryL__3214EC072DB26083");
+            entity.HasKey(e => e.Id).HasName("PK__GroceryL__3214EC0765801989");
 
             entity.ToTable("GroceryList");
 
@@ -58,7 +58,7 @@ public partial class MealPrepDbContext : DbContext
 
         modelBuilder.Entity<User>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("PK__Users__3214EC07C819EEC4");
+            entity.HasKey(e => e.Id).HasName("PK__Users__3214EC07CC63CE61");
 
             entity.Property(e => e.Logininfo).HasMaxLength(75);
             entity.Property(e => e.Username).HasMaxLength(50);

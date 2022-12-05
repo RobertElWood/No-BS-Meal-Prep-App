@@ -10,16 +10,16 @@ import { Component, OnInit } from '@angular/core';
 export class NavMenuComponent implements OnInit{
   isExpanded = false;
 
-  user: SocialUser = {} as SocialUser;
-  loggedIn: boolean = false;
+  static user: SocialUser = {} as SocialUser;
+  static loggedIn: boolean = false;
 
   constructor(private authService: SocialAuthService) { }
 
   ngOnInit(): void {
 
     this.authService.authState.subscribe((user) => {
-      this.user = user;
-      this.loggedIn = (user != null);
+      NavMenuComponent.user = user;
+      NavMenuComponent.loggedIn = (user != null);
     });
   }
 

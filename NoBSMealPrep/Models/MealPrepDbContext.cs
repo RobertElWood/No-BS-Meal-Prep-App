@@ -31,15 +31,15 @@ public partial class MealPrepDbContext : DbContext
         {
             entity.HasKey(e => e.Id).HasName("PK__Favorite__3214EC07384DE480");
 
-            entity.Property(e => e.Image).HasMaxLength(100);
+            entity.Property(e => e.Image).HasMaxLength(500);
             entity.Property(e => e.Label).HasMaxLength(75);
             entity.Property(e => e.Uri)
-                .HasMaxLength(100)
+                .HasMaxLength(500)
                 .HasColumnName("URI");
 
             entity.HasOne(d => d.FavoritedbyNavigation).WithMany(p => p.FavoriteRecipes)
                 .HasForeignKey(d => d.Favoritedby)
-                .HasConstraintName("FK__FavoriteR__Favor__3B75D760");
+                .HasConstraintName("FK__FavoriteR__Favor__48CFD27E");
         });
 
         modelBuilder.Entity<GroceryList>(entity =>

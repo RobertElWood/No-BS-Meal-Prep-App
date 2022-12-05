@@ -1,9 +1,27 @@
 <div *ngFor="let f of favoritesbyUserList; index as i ">
 <p>{{i+1}}) Recipe Name: {{f.label}}</p>
 <p>Calorie Count: {{f.calories}} kcal</p>
-<br>
-<br>
+    <br>
+
+    <!-- <button type="button" (click)="showText(i)" id="{{i}}">
+        {{ !currentList[i].isReadMore ? 'Read More': 'Read Less' }}
+      </button>
+
+      <div [ngClass]="{'limitTextHeight': !currentList[i].isReadMore}"><p>
+        Time:{{e.dateTime}} <br>
+        Place: {{e.location}} <br>
+        Summary: {{e.description}} <br>
+       </p>
+       </div> -->
+
+
+<button (click)="displayFavoriteInfo(f.uri)" >View Favorite Recipe Details</button>
+        <div *ngIf="trigger === true">
+            <app-favorites-view></app-favorites-view>
+        </div>
+    <br>
+    <br>
 </div>
 
-<!-- to do, create dropdown box to display recipe 
+<!-- to do, create accordion/button to display recipe 
     details (see favorite-view and recipe-view?). -->

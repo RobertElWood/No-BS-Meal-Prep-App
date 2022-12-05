@@ -50,10 +50,10 @@ export class RecipeViewComponent implements OnInit {
       this.searchID = params.get('id');
       this.recipeAPI.getSpecificRecipe(this.searchID).subscribe((result : SingleRecipe) => {this.foundRecipe.push(result)});
       
-    this.authService.authState.subscribe((user) => {
-      this.user = user;
-      this.loggedIn = (user != null);
-    });
+      this.authService.authState.subscribe((user) => {
+        this.user = user;
+        this.loggedIn = (user != null);
+      });
 
     });
   }
@@ -66,7 +66,7 @@ export class RecipeViewComponent implements OnInit {
 
   //This navigates back to the recipe search view when the user clicks the button in recipe-view.component.html
   onBack() : void {
-    this.router.navigate(['recipe-list'])
+    this.router.navigate(['recipe-list']);
   }
 
   checkUser() {

@@ -26,6 +26,10 @@ export class FavoritesListComponent implements OnInit {
 
   loggedIn: boolean = false;
 
+  trigger: boolean = false;
+
+  sub: any;
+
   constructor(private fav: FavDbService, private router:Router, private authService: SocialAuthService, private userDb:UserDbService) { }
 
   listFavRecipes() {
@@ -41,22 +45,48 @@ export class FavoritesListComponent implements OnInit {
         this.favoritesList = results;
         for(let i=0; i<this.favoritesList.length; i++){
           if (this.favoritesList[i].favoritedby === this.favoritedBy){
-            this.favoritesbyUserList.push(this.favoritesList[i]);
-          }
-          
+            this.favoritesbyUserList.push(this.favoritesList[i]); //adds all favorited results to the user's favorites list
+          }      
         }
-        console.log(this.favoritesbyUserList);
+
+        for(let i=0; i<this.favoritesbyUserList.length; i++){ //ToDo -> when user signs out in the Planner view, 
+          //duplicates list of favorited items when new user signs in. 
+          //Need to delete/prevent old user's info from bleeding over into new user's list.
+          if (this.favoritesbyUserList[i].favoritedby !== this.favoritedBy){
+            this.favoritesbyUserList.splice(i,1); //remove any results not favorited by current user.
+          }
+        }
+        
       });
     });
   }
 
   ngOnInit(): void {
-    this.authService.authState.subscribe((user) => {
+    this.sub = this.authService.authState.subscribe((user) => {
       this.user = user;
       this.loggedIn = (user != null);
 
       this.listFavRecipes();
     });
   }
+
+  displayFavoriteInfo(URI: any){
+    this.trigger === true;
+
+    let IDFormatted : string[] = URI.split('_');
+		// return IDFormatted[1];
+
+		this.router.navigate([`/favorites-view/${IDFormatted[1]}`])
+	}
+
+  //Activates when user navigates away from the page.
+  //If anything is present in 'sub' this will clear all saved data on the page. Prevents memory/performance issues.
+  ngOnDestroy() {
+    if (this.sub) this.sub.unsubscribe();
+  }
+
+  // showText(id: number) {
+	// 	this.currentList[id].isReadMore = !this.currentList[id].isReadMore;
+	// }
 
 }

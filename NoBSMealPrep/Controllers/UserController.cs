@@ -31,7 +31,10 @@ namespace NoBSMealPrep.Controllers
         [HttpGet("{logininfo}")]
         public async Task<ActionResult<User>> GetUser(string logininfo)
         {
-            var user = await _context.Users.FindAsync(logininfo);
+
+            List<User> users = await _context.Users.ToListAsync();
+
+            var user = users.FirstOrDefault(u => u.Logininfo == logininfo);
 
             if (user == null)
             {
@@ -80,7 +83,7 @@ namespace NoBSMealPrep.Controllers
             _context.Users.Add(user);
             await _context.SaveChangesAsync();
 
-            return CreatedAtAction("GetUser", new { id = user.Id }, user);
+            return CreatedAtAction("GetUser", new { logininfo = user.Logininfo }, user);
         }
 
         // DELETE: api/User/5

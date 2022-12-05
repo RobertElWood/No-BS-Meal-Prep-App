@@ -7,7 +7,7 @@ import { FavoriteRecipe } from 'src/interfaces/FavoriteRecipe';
 @Injectable({
   providedIn: 'root'
 })
-export class MealPrepDBService {
+export class FavDbService {
 
   baseURL:string;
   controllerPath:string = "api/FavoriteRecipe/";

@@ -77,6 +77,7 @@ namespace NoBSMealPrep.Controllers
         [HttpPost]
         public async Task<ActionResult<FavoriteRecipe>> PostFavoriteRecipe(FavoriteRecipe favoriteRecipe)
         {
+            favoriteRecipe.Id = null;
             _context.FavoriteRecipes.Add(favoriteRecipe);
             await _context.SaveChangesAsync();
 

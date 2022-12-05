@@ -1,5 +1,7 @@
 import { SocialAuthService, SocialUser } from '@abacritt/angularx-social-login';
 import { Component, OnInit } from '@angular/core';
+import { User } from 'src/interfaces/User';
+import { UserDbService } from '../services/user-db.service';
 
 
 @Component({
@@ -10,16 +12,18 @@ import { Component, OnInit } from '@angular/core';
 export class NavMenuComponent implements OnInit{
   isExpanded = false;
 
-  static user: SocialUser = {} as SocialUser;
-  static loggedIn: boolean = false;
+  user: SocialUser = {} as SocialUser;
+  loggedIn: boolean = false;
+
+  currentUsers : User[]=[];
 
   constructor(private authService: SocialAuthService) { }
 
   ngOnInit(): void {
 
     this.authService.authState.subscribe((user) => {
-      NavMenuComponent.user = user;
-      NavMenuComponent.loggedIn = (user != null);
+      this.user = user;
+      this.loggedIn = (user != null);
     });
   }
 

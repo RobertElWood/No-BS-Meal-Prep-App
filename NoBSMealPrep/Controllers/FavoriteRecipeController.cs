@@ -27,6 +27,17 @@ namespace NoBSMealPrep.Controllers
             return await _context.FavoriteRecipes.ToListAsync();
         }
 
+
+        /*[HttpGet] {{old}}
+        public async Task<ActionResult<IEnumerable<FavoriteRecipe>>> GetFavoriteRecipes(int favoritedBy)
+        {
+
+            List<FavoriteRecipe> favRecipes = await _context.FavoriteRecipes.ToListAsync();
+            return favRecipes.Where(f => f.Favoritedby == favoritedBy).ToList();
+
+        }*/
+
+
         // GET: api/FavoriteRecipe/5
         [HttpGet("{id}")]
         public async Task<ActionResult<FavoriteRecipe>> GetFavoriteRecipe(int id)
@@ -40,6 +51,15 @@ namespace NoBSMealPrep.Controllers
 
             return favoriteRecipe;
         }
+
+/*        // GET: api/FavoriteRecipe/favoritedBy
+        [HttpGet("{favoritedBy}")] {{old}}
+        public async Task<ActionResult<IEnumerable<FavoriteRecipe>>> GetFavoriteRecipesByUser(int favoritedBy)
+        {
+            List<FavoriteRecipe> favRecipes = await _context.FavoriteRecipes.ToListAsync();
+            return favRecipes.Where(f => f.Favoritedby == favoritedBy).ToList();
+ 
+        }*/
 
         // PUT: api/FavoriteRecipe/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754

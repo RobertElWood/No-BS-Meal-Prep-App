@@ -105,7 +105,7 @@ export class RecipeViewComponent implements OnInit {
 
         console.log("IF: the id of the person posted is: " + this.userPosted.id);
 
-        this.favRecipeAPI.postFavoriteRecipe(this.savedRecipe).subscribe((resultrecipe: FavoriteRecipe) => {console.log("IF: Fav Recpie is: " + resultrecipe)});
+        this.favRecipeAPI.postFavoriteRecipe(this.savedRecipe).subscribe((resultrecipe: FavoriteRecipe) => {console.log(resultrecipe)});
         alert("Your recipe has been successfully saved!");
       });
       
@@ -121,7 +121,7 @@ export class RecipeViewComponent implements OnInit {
 
         console.log("ELSE: the id of the person posted is:" + this.userPosted.id);
 
-        this.favRecipeAPI.postFavoriteRecipe(this.savedRecipe).subscribe((resultrecipe: FavoriteRecipe) => {"ELSE: Fav Recpie is: " + console.log(resultrecipe)});
+        this.favRecipeAPI.postFavoriteRecipe(this.savedRecipe).subscribe((resultrecipe: FavoriteRecipe) => {console.log(resultrecipe)});
         alert("Your recipe has been successfully saved!");
       });
     }

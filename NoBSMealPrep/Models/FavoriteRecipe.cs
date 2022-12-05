@@ -5,7 +5,7 @@ namespace NoBSMealPrep.Models;
 
 public partial class FavoriteRecipe
 {
-    public int Id { get; set; }
+    public int? Id { get; set; }
 
     public string? Label { get; set; }
 

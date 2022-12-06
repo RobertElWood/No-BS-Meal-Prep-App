@@ -8,6 +8,7 @@ const PROXY_CONFIG = [
     context: [
       "/api/FavoriteRecipe",
       "/api/User",
+      "/api/GroceryList",
    ],
     target: target,
     secure: false,

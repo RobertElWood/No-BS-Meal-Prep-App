@@ -104,6 +104,8 @@ namespace NoBSMealPrep.Controllers
             return CreatedAtAction("GetFavoriteRecipe", new { id = favoriteRecipe.Id }, favoriteRecipe);
         }
 
+        //edit post method to include a check for the URI. This should allow you to check and see if the recipe has been posted previously.
+
         // DELETE: api/FavoriteRecipe/5
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteFavoriteRecipe(int id)

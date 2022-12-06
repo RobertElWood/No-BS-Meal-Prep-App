@@ -28,6 +28,11 @@
             <a class="nav-link text-dark" [routerLink]="['/']">Home</a>
           </li>
           <li class="nav-item" [routerLinkActive]="['link-active']">
+            <a class="nav-link text-dark" [routerLink]="['/recipe-list']"
+              >Search Recipes</a
+            >
+          </li>
+          <li class="nav-item" [routerLinkActive]="['link-active']">
             <div *ngIf="!loggedIn">
             <a class="nav-link text-dark" [routerLink]="['/favorites-list']"
               >Planner</a
@@ -40,8 +45,8 @@
           </div>
           </li>
           <li class="nav-item" [routerLinkActive]="['link-active']">
-            <a class="nav-link text-dark" [routerLink]="['/recipe-list']"
-              >Search Recipes</a
+            <a class="nav-link text-dark" [routerLink]="['/grocery-list']"
+              >Grocery List</a
             >
           </li>
           <li class="nav-item">

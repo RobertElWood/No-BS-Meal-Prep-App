@@ -53,6 +53,13 @@ export class FavoritesListComponent implements OnInit {
     });
   }
 
+  deleteOneFavRecipe(id:number, localId : number){
+    this.fav.deleteFavoriteRecipe(id).subscribe(() => {
+      this.favoritesList.splice(localId, 1);
+      this.favoritesbyUserList.splice(localId, 1);
+    });
+  }
+
   ngOnInit(): void {
     this.sub = this.authService.authState.subscribe((user) => {
       this.user = user;

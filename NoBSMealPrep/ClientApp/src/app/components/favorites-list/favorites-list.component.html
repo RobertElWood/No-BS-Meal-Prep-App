@@ -1,0 +1,21 @@
+<div *ngIf="user === null || loggedIn === false">
+    <p>Please log in to view your planner!</p>
+</div>
+<div *ngFor="let f of favoritesbyUserList; index as i ">
+<p>{{i+1}}) Recipe Name: {{f.label}}</p>
+<p>Calorie Count: {{f.calories | number}} kcal</p>
+    <br>
+
+<button (click)="displayFavoriteInfo(f.uri)" >View Favorite Recipe Details</button>
+        <div *ngIf="trigger === true">
+            <app-favorites-view></app-favorites-view>
+        </div>
+    <br>
+    <br>
+<button (click)="deleteOneFavRecipe(f.id, i)">Delete from Favorites</button>
+    <br>
+    <br>
+</div>
+
+<!-- to do, create accordion/button to display recipe 
+    details (see favorite-view and recipe-view?). -->

@@ -53,6 +53,8 @@ export class FavoritesListComponent implements OnInit {
     });
   }
 
+  //Deletes favorited recipe from the favorites table
+  //Additionally, splices the deleted recipe from the array so they are no longer visible to the user.
   deleteOneFavRecipe(id:number, localId : number){
     this.fav.deleteFavoriteRecipe(id).subscribe(() => {
       this.favoritesList.splice(localId, 1);

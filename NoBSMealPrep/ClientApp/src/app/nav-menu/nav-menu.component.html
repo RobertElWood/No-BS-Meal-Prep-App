@@ -28,9 +28,16 @@
             <a class="nav-link text-dark" [routerLink]="['/']">Home</a>
           </li>
           <li class="nav-item" [routerLinkActive]="['link-active']">
-            <a class="nav-link text-dark" [routerLink]="['/counter']"
-              >Counter</a
+            <div *ngIf="!loggedIn">
+            <a class="nav-link text-dark" [routerLink]="['/favorites-list']"
+              >Planner</a
             >
+          </div>
+          <div *ngIf="loggedIn">
+            <a class="nav-link text-dark" [routerLink]="['/favorites-list']"
+              >{{user.name}}'s Planner</a
+            >
+          </div>
           </li>
           <li class="nav-item" [routerLinkActive]="['link-active']">
             <a class="nav-link text-dark" [routerLink]="['/recipe-list']"

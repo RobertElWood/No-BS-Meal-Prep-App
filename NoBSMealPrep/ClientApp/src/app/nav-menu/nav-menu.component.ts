@@ -1,6 +1,7 @@
 import { SocialAuthService, SocialUser } from '@abacritt/angularx-social-login';
 import { Component, OnInit } from '@angular/core';
 import { User } from 'src/interfaces/User';
+import { FavoritesListComponent } from '../components/favorites-list/favorites-list.component';
 import { UserDbService } from '../services/user-db.service';
 
 
@@ -37,6 +38,6 @@ export class NavMenuComponent implements OnInit{
 
   signOut(): void {
     this.authService.signOut();
-  }    
-
+  }
+  
 }

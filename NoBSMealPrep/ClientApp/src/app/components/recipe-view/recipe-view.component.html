@@ -10,7 +10,7 @@
             <p>{{c}}</p>
         </div>
     <br>
-        <p>Calories: {{foundRecipe[0].recipe.calories}}</p>
+        <p>Calories: {{foundRecipe[0].recipe.calories | number}}</p>
     <br>
         <p>Health Information:</p>
         <div *ngFor="let h of foundRecipe[0].recipe.healthLabels">

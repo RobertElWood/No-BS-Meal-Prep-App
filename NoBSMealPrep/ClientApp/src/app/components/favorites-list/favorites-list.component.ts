@@ -34,7 +34,8 @@ export class FavoritesListComponent implements OnInit {
 
   listFavRecipes() {
     //clears list
-    this.favoritesList=[]; 
+    this.favoritesList=[];
+    this.favoritesbyUserList=[]; 
 
     //gets ID of the current user, and subscribes to the database to get info
     this.userDb.getOneUser(this.user.id).subscribe((result:User) => {
@@ -48,15 +49,6 @@ export class FavoritesListComponent implements OnInit {
             this.favoritesbyUserList.push(this.favoritesList[i]); //adds all favorited results to the user's favorites list
           }      
         }
-
-        for(let i=0; i<this.favoritesbyUserList.length; i++){ //ToDo -> when user signs out in the Planner view, 
-          //duplicates list of favorited items when new user signs in. 
-          //Need to delete/prevent old user's info from bleeding over into new user's list.
-          if (this.favoritesbyUserList[i].favoritedby !== this.favoritedBy){
-            this.favoritesbyUserList.splice(i,1); //remove any results not favorited by current user.
-          }
-        }
-        
       });
     });
   }
@@ -84,9 +76,4 @@ export class FavoritesListComponent implements OnInit {
   ngOnDestroy() {
     if (this.sub) this.sub.unsubscribe();
   }
-
-  // showText(id: number) {
-	// 	this.currentList[id].isReadMore = !this.currentList[id].isReadMore;
-	// }
-
 }

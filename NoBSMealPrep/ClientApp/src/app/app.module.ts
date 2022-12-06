@@ -15,6 +15,7 @@ import { GoogleLoginProvider, SocialAuthServiceConfig, SocialLoginModule } from 
 import { Secret } from './secret';
 import { FavoritesViewComponent } from './components/favorites-view/favorites-view.component';
 import { FavoritesListComponent } from './components/favorites-list/favorites-list.component';
+import { GroceryListComponent } from './components/grocery-list/grocery-list.component';
 
 @NgModule({
   declarations: [
@@ -27,6 +28,7 @@ import { FavoritesListComponent } from './components/favorites-list/favorites-li
     RecipeViewComponent,
     FavoritesViewComponent,
     FavoritesListComponent,
+    GroceryListComponent,
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
@@ -41,6 +43,7 @@ import { FavoritesListComponent } from './components/favorites-list/favorites-li
       { path: 'recipe-view/:id', component: RecipeViewComponent},
       { path: 'favorites-view/:id', component: FavoritesViewComponent},
       { path: 'favorites-list', component: FavoritesListComponent},
+      { path: 'grocery-list', component: GroceryListComponent },
     ])
   ],
   providers: [

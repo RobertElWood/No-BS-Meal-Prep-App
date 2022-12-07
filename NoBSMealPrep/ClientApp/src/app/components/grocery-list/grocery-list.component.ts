@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { GroceryDbService } from 'src/app/services/grocery-db.service';
+import { GroceryList } from 'src/interfaces/GroceryList';
 
 @Component({
   selector: 'app-grocery-list',
@@ -7,9 +9,17 @@ import { Component, OnInit } from '@angular/core';
 })
 export class GroceryListComponent implements OnInit {
 
-  constructor() { }
+  favoriteGroceryItems:GroceryList[] = [];
 
+  constructor(private groceryDb:GroceryDbService) { }
+
+  
   ngOnInit(): void {
+    this.groceryDb.getSavedIngredients().subscribe ((results:GroceryList[]) => {
+      this.favoriteGroceryItems = results;
+    })
   }
+
+  
 
 }

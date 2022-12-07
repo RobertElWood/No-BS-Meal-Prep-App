@@ -33,16 +33,25 @@ export class GroceryListComponent implements OnInit {
   //User login info imported through social Auth service.
   user: SocialUser = {} as SocialUser;
 
+  //Contains information for updates to GroceryList item
+  ingToUpdate: GroceryList = {} as GroceryList;
+
+  //Holds t or f information for items in array.
+  isEdited: boolean[]=[];
+
+  //Holds recipe names for the ingredients in each list
+  recipeNames:any[] = [];
+
   sub: any;
 
   loggedIn: boolean = false;
 
-  recipeNames:any[] = [];
+  
 
   constructor(private groceryDb:GroceryDbService, private fav: FavDbService, private router:Router, private authService:SocialAuthService, private userDb:UserDbService) { }
   
   ngOnInit(): void {
-    //
+  
     this.sub = this.authService.authState.subscribe((user) => {
       this.user = user;
       this.loggedIn = (user != null);
@@ -57,6 +66,9 @@ export class GroceryListComponent implements OnInit {
     this.favoriteGroceryItemsByUser=[];
     this.favoriteRecipes=[];
     this.favoritesbyUserList=[];
+    this.recipeNames=[];
+    this.isEdited=[];
+    this.ingToUpdate = {} as GroceryList;
 
     //gets ID of the current user, and subscribes to the database to get info
     this.userDb.getOneUser(this.user.id).subscribe((result:User) => {
@@ -111,9 +123,58 @@ export class GroceryListComponent implements OnInit {
             }
           }
 
+          for(let i=0; i < this.favoriteGroceryItemsByUser.length; i++) {
+            this.isEdited.push(false);
+          }
+
         });
       });
     });
+  }
+
+  openEditTray(index : number, food : string, measure : string, quantity : number){
+
+  this.ingToUpdate.food = food;
+  this.ingToUpdate.measure = measure;
+  this.ingToUpdate.quantity = quantity;
+
+  this.isEdited[index] = true;
+  }
+
+  closeEditTray(index : number){
+    this.isEdited[index] = false;
+  }
+
+  editIngredient(id : number, localId : number){
+
+    this.ingToUpdate.id = id;
+    this.ingToUpdate.parentRecipe = this.favoriteGroceryItemsByUser[localId].parentRecipe;
+
+    this.groceryDb.updateOneIngredient(id, this.ingToUpdate).subscribe(() => {
+      this.listGroceries();
+    });
+  }
+
+  //Deletes a specific ingredient from the user's grocery list
+  //Passes the ingredient ID to SQL, splices from lists at local index
+  deleteIngredient(id : number, localId :  number){
+    this.groceryDb.deleteIngredient(id).subscribe(() => {
+      this.favoriteGroceryItems.splice(localId, 1);
+      this.favoriteGroceryItemsByUser.splice(localId, 1);
+      this.recipeNames.splice(localId, 1);
+    });
+  }
+
+  //Deletes all ingredients in the user's current shopping list.
+  //Uses the same logic as above, but applied iteratively across all items in array.
+  deleteAllIngredients() {
+    for(let i=0; i < this.favoriteGroceryItemsByUser.length; i++) {
+      this.groceryDb.deleteIngredient(this.favoriteGroceryItemsByUser[i].id).subscribe(() => {
+      });
+    }
+    this.favoriteGroceryItems.splice(0, this.favoriteGroceryItems.length);
+    this.favoriteGroceryItemsByUser.splice(0, this.favoriteGroceryItemsByUser.length);
+    this.recipeNames.splice(0, this.recipeNames.length);
   }
 
   ngOnDestroy() {

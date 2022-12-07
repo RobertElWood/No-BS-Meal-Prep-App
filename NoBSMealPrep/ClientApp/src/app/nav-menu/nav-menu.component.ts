@@ -1,5 +1,6 @@
 import { SocialAuthService, SocialUser } from '@abacritt/angularx-social-login';
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { User } from 'src/interfaces/User';
 import { FavoritesListComponent } from '../components/favorites-list/favorites-list.component';
 import { UserDbService } from '../services/user-db.service';
@@ -18,7 +19,7 @@ export class NavMenuComponent implements OnInit{
 
   currentUsers : User[]=[];
 
-  constructor(private authService: SocialAuthService) { }
+  constructor(private authService: SocialAuthService, private router : Router) { }
 
   ngOnInit(): void {
 
@@ -38,6 +39,7 @@ export class NavMenuComponent implements OnInit{
 
   signOut(): void {
     this.authService.signOut();
+    this.router.navigate(['']);
   }
   
 }

@@ -41,7 +41,7 @@ import { GroceryListComponent } from './components/grocery-list/grocery-list.com
       { path: 'fetch-data', component: FetchDataComponent },
       { path: 'recipe-list', component: RecipeListComponent},
       { path: 'recipe-view/:id', component: RecipeViewComponent},
-      { path: 'favorites-view/:id', component: FavoritesViewComponent},
+      { path: 'favorites-view/:id', component: FavoritesViewComponent, data:{requiresLogin: true}},
       { path: 'favorites-list', component: FavoritesListComponent},
       { path: 'grocery-list', component: GroceryListComponent },
     ])

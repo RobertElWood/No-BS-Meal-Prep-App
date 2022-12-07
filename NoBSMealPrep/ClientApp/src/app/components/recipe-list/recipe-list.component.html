@@ -4,9 +4,9 @@
 <input type="text" [(ngModel)]="keywords">
 <button (click)="searchRecipes()">Submit</button>
 <br>
-
-<label for="health">Filter by Dietary Restrictions</label>
 <br>
+<br>
+<label for="health">Filter by Dietary Restrictions</label>
 <select [(ngModel)]="health">
     <option value="test">None</option>
     <option value="vegan">Vegan</option>
@@ -25,8 +25,9 @@
     <option value="pork-free">Pork Free</option>
 </select>
 <br>
-<label for="cuisineType">Filter by Cuisine</label>
+
 <br>
+<label for="cuisineType">Filter by Cuisine</label>
 <select [(ngModel)]="type">
     <option value="test">None</option>
     <option value="American">American</option>
@@ -47,6 +48,7 @@
     <option value="South%20American">South American</option>
     <option value="South%20East%20Asian">South East Asian</option>
 </select>
+<br>
 <br>
 <br>
 </div>

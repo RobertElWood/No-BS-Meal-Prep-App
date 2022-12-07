@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html>
+  
+    <head>
+        <style>
+            table {
+                border-collapse: collapse;
+            }
+            th {
+                background-color:#344966;
+                Color:white;
+            }
+            th, td {
+                width:200px;
+                text-align:left;
+                border:1px solid black;
+                padding:10px
+             
+            }
+            .geeks {
+                border-right:hidden;
+            }
+            .gfg {
+                border-collapse:separate;
+                border-spacing:0 15px;
+            }
+            h1 {
+                color:lightgreen;
+            }
+          </style>
+    </head>
+
+    <h1>This Week's Meal Plan</h1>
+<table class='table table-striped' aria-labelledby="tableLabel" style="border: solid 2px white; margin:10px;">
+    <thead>
+        <tr>
+            <th></th>
+            <th>Mon</th>
+            <th>Tue</th>
+            <th>Wed</th>
+            <th>Thu</th>
+            <th>Fri</th>
+            <th>Sat</th>
+            <th>Sun</th>
+        </tr>
+    </thead>
+
+
+    <tbody>
+        <tr>
+            <th>Breakfast</th>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+        </tr>
+
+        <tr>
+            <th>Lunch</th>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+        </tr>
+
+        <tr>
+            <th>Dinner</th>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+        </tr>
+
+        <tr>
+            <th>Snacks</th>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+        </tr>
+
+    </tbody>
+
+
+
+</table>
+
+<label for="recipes">Saved Recipes</label>
+<select name="recipes">
+    <div *ngFor="let g of favoriteRecipes">
+        <!-- favorite recipes slot/type -->
+        <option value="{{g.id}}">{{g.label}}</option>
+    </div>
+</select>
+<br>
+
+<label for="day">Day of the Week</label>
+<select name="day">
+    <span *ngFor="let g of daysOfWeek">
+        <!-- day of week slot/type -->
+        <option value="{{g}}">{{g}}</option>
+    </span>
+</select>
+<br>
+
+<label for="meal">Meal</label>
+<select name ="meal">
+    <div *ngFor="let g of meals">
+        <!-- meal slot/type -->
+        <option value="{{g}}">{{g}}</option>
+    </div>
+</select>
+<br>
+<input type="submit">
+
+</html>

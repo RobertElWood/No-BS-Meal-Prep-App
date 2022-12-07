@@ -6,6 +6,7 @@ import { RecipeService } from 'src/app/services/recipe.service';
 import { FavoriteRecipe } from 'src/interfaces/FavoriteRecipe';
 import { GroceryDbService } from 'src/app/services/grocery-db.service';
 import { GroceryList } from 'src/interfaces/GroceryList';
+import { SocialAuthService, SocialUser } from '@abacritt/angularx-social-login';
 
 
 @Component({
@@ -27,15 +28,24 @@ export class FavoritesViewComponent implements OnInit {
 
   ingToAdd: GroceryList = {} as GroceryList;
 
-  constructor(private fav: FavDbService,  private recipeAPI: RecipeService, private grocerylistAPI: GroceryDbService, private route: ActivatedRoute, private router: Router) { }
+  user: SocialUser = {} as SocialUser;
+
+  loggedIn: boolean = false;
+  
+  constructor(private fav: FavDbService,  private recipeAPI: RecipeService, private grocerylistAPI: GroceryDbService, private authService: SocialAuthService, private route: ActivatedRoute, private router: Router) { }
 
   ngOnInit(): void {
     this.sub = this.route.paramMap.subscribe((params) => {
       this.searchID = params.get('id');
       this.recipeAPI.getSpecificRecipe(this.searchID).subscribe((result : SingleRecipe) => {this.foundRecipe.push(result)});
       
-      this.fav.getFavoriteList().subscribe((results:FavoriteRecipe[]) => {
-        this.favoritesList = results;
+        this.fav.getFavoriteList().subscribe((results:FavoriteRecipe[]) => {
+          this.favoritesList = results;
+
+          this.sub = this.authService.authState.subscribe((user) => {
+            this.user = user;
+            this.loggedIn = (user != null);
+        });
       });
     });
   }
@@ -91,6 +101,14 @@ export class FavoritesViewComponent implements OnInit {
     }
   }
 
+  //Adds all ingredients currently in the recipe to the db
+  //Calls previous method iteratively in order to do so.
+  addAllIngredients() {
+    for(let i = 0; i < this.foundRecipe[0].recipe.ingredientLines.length; i++) {
+      this.addShoppingIngredient(this.foundRecipe[0].recipe.ingredientLines[i]);
+    }
+  }
+
   //Deletes the recipe in question from the favorites table, then navigates back to the list view.
   deleteOneFavRecipeView(recipeLabel : string){
     for(let i = 0; i < this.favoritesList.length; i++){
@@ -100,6 +118,10 @@ export class FavoritesViewComponent implements OnInit {
         });
       }
     }
+  }
+
+  reDirect(){
+    this.router.navigate(['favorites-list']);
   }
 
 }

@@ -1,3 +1,6 @@
+<table>
+    <thead>
+        <td>
 <div *ngIf="user === null || loggedIn === false">
     <p>Please log in to view your planner!</p>
 </div>
@@ -20,3 +23,10 @@
 
 <!-- to do, create accordion/button to display recipe 
     details (see favorite-view and recipe-view?). -->
+
+</td>
+<td>
+    <app-calendar></app-calendar>
+</td>
+</thead>
+</table>

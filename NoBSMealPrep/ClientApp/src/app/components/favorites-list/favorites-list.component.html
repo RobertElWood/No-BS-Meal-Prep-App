@@ -1,6 +1,7 @@
 <div *ngIf="user === null || loggedIn === false">
     <p>Please log in to view your planner!</p>
 </div>
+
 <div *ngFor="let f of favoritesbyUserList; index as i ">
 <p>{{i+1}}) Recipe Name: {{f.label}}</p>
 <p>Calorie Count: {{f.calories | number}} kcal</p>

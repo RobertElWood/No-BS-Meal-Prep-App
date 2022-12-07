@@ -1,8 +1,12 @@
-<table class='table table-striped' aria-labelledby="tableLabel" style="border: solid 2px white; margin:10px;">
+<div *ngIf="user === null || loggedIn === false">
+    <p>Please log in to view your grocery list!</p>
+</div>
+
+<table *ngIf="loggedIn === true" class='table table-striped' aria-labelledby="tableLabel" style="border: solid 2px white; margin:10px;">
     <tr>
         <th>Grocery List Items</th>
     </tr>
-    <tr *ngFor="let g of favoriteGroceryItems">
-        <td><input type="checkbox" id="examplevehicle1" name="examplevehicle1b" value="exampleBike"> {{g.quantity}} {{g.measure}} of {{g.food}} </td>  <button>example </button>
+    <tr *ngFor="let g of favoriteGroceryItemsByUser; index as i" >
+        <td><input type="checkbox" id="examplevehicle1" name="examplevehicle1b" value="exampleBike"> {{g.quantity}} {{g.measure}} of {{g.food}} </td> from {{recipeNames[i]}} <button>example</button>
     </tr>
 </table>

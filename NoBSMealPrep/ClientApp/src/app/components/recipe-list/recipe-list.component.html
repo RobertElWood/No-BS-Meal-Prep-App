@@ -1,12 +1,14 @@
 
-<div>
-    <p>Search Recipes by Keywords</p>
+<div style="text-align: center;"
+>
+    <p>Search Recipes by Keywords:</p>
 <input type="text" [(ngModel)]="keywords">
 <button (click)="searchRecipes()">Submit</button>
 <br>
 <br>
 <br>
-<label for="health">Filter by Dietary Restrictions</label>
+<label for="health">Filter by Dietary Restrictions:</label>
+<br>
 <select [(ngModel)]="health">
     <option value="test">None</option>
     <option value="vegan">Vegan</option>
@@ -27,7 +29,8 @@
 <br>
 
 <br>
-<label for="cuisineType">Filter by Cuisine</label>
+<label for="cuisineType">Filter by Cuisine:</label>
+<br>
 <select [(ngModel)]="type">
     <option value="test">None</option>
     <option value="American">American</option>
@@ -54,13 +57,15 @@
 </div>
 
 
-<div *ngIf="recipes[0] !== undefined">
+<div *ngIf="recipes[0] !== undefined" style="text-align: center;">
     <div *ngFor="let r of recipes[0].hits">
         <p>Recipe Name: {{r.recipe.label}}</p>
         <br>
         <img src="{{r.recipe.image}}">
-    <!-- <button [routerLink]="['/recipe-view', ]">View Recipe Details</button> -->
-    <button (click)="getId(r.recipe.uri)">View Recipe Details</button>
+        <!-- <button [routerLink]="['/recipe-view', ]">View Recipe Details</button> -->
+        <br>
+        <br>
+        <button (click)="getId(r.recipe.uri)">View Recipe Details</button>
     
         <br>
         <br>

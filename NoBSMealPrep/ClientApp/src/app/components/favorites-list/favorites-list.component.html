@@ -1,32 +1,67 @@
-<table>
-    <thead>
-        <td>
+<!DOCTYPE html>
+<html>
+  
+    <head>
+        <style>
+            table {
+                border-collapse: collapse;
+            }
+            thead {
+                /* background-color:#344966; */
+                Color:black;
+                border:1px solid black;
+            }
+            th{
+                text-align:center;
+                width: 250px;
+                padding:10px;
+            }
+            td {
+                text-align:center;
+                width: auto;
+                padding:10px;
+            }
+
+            .geeks {
+                border-right:hidden;
+            }
+            .gfg {
+                border-collapse:separate;
+                border-spacing:0 15px;
+            }
+            h1 {
+                color:lightgreen;
+            }
+          </style>
+    </head>
+
+<table class='table table-striped' aria-labelledby="tableLabel" style="text-align: center;">
+    <tbody>
+        <th>
 <div *ngIf="user === null || loggedIn === false">
     <p>Please log in to view your planner!</p>
 </div>
 
-<div *ngFor="let f of favoritesbyUserList; index as i ">
-<p>{{i+1}}) Recipe Name: {{f.label}}</p>
+<thead *ngFor="let f of favoritesbyUserList; index as i ">
+<p>{{i+1}}) Recipe Name:<br>{{f.label}}</p>
 <p>Calorie Count: {{f.calories | number}} kcal</p>
     <br>
 
 <button (click)="displayFavoriteInfo(f.uri)" >View Favorite Recipe Details</button>
-        <div *ngIf="trigger === true">
-            <app-favorites-view></app-favorites-view>
-        </div>
     <br>
     <br>
 <button (click)="deleteOneFavRecipe(f.id, i)">Delete from Favorites</button>
     <br>
     <br>
-</div>
+</thead>
 
 <!-- to do, create accordion/button to display recipe 
     details (see favorite-view and recipe-view?). -->
 
-</td>
-<td>
+</th>
+<td *ngIf="loggedIn === true">
     <app-calendar></app-calendar>
 </td>
-</thead>
+</tbody>
 </table>
+</html>

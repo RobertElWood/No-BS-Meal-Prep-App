@@ -19,4 +19,4 @@
     </tr>
 </table>
 
-<button (click)="deleteAllIngredients()">Delete All Ingredients</button>
+<button *ngIf="loggedIn === true" (click)="deleteAllIngredients()">Delete All Ingredients</button>

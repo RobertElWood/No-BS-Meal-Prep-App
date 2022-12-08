@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html>
-  
     <head>
         <style>
             table {
@@ -11,11 +10,10 @@
                 Color:white;
             }
             th, td {
-                width:200px;
-                text-align:left;
+                width: 100px;;
+                text-align:center;
                 border:1px solid black;
                 padding:10px
-             
             }
             .geeks {
                 border-right:hidden;
@@ -26,6 +24,9 @@
             }
             h1 {
                 color:lightgreen;
+            }
+            td:hover {
+                background-color: coral;
             }
           </style>
     </head>
@@ -44,85 +45,87 @@
             <th>Sun</th>
         </tr>
     </thead>
-
-
     <tbody>
         <tr>
             <th>Breakfast</th>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
+            <td *ngFor="let b of breakfastItems; index as i">{{b}}</td>
         </tr>
-
         <tr>
             <th>Lunch</th>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
+            <td *ngFor="let l of lunchItems; index as i">{{l}}</td>
         </tr>
-
         <tr>
             <th>Dinner</th>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
+            <td *ngFor="let d of dinnerItems; index as i">{{d}}</td>
         </tr>
-
         <tr>
             <th>Snacks</th>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
+            <td *ngFor="let s of snacksItems; index as i">{{s}}</td>
         </tr>
-
     </tbody>
-
-
-
 </table>
 
-<label for="recipes">Saved Recipes</label>
-<select name="recipes">
-    <div *ngFor="let g of favoriteRecipes">
-        <!-- favorite recipes slot/type -->
-        <option value="{{g.id}}">{{g.label}}</option>
-    </div>
-</select>
-<br>
 
-<label for="day">Day of the Week</label>
-<select name="day">
-    <span *ngFor="let g of daysOfWeek">
-        <!-- day of week slot/type -->
-        <option value="{{g}}">{{g}}</option>
-    </span>
-</select>
-<br>
-
-<label for="meal">Meal</label>
-<select name ="meal">
-    <div *ngFor="let g of meals">
-        <!-- meal slot/type -->
-        <option value="{{g}}">{{g}}</option>
+<div *ngIf="customTrigger === true">
+    <br>
+    <br>
+    <label for="yourmeal">Enter Custom Meal:&ensp;</label>
+        <input name="yourmeal" type="text"  [(ngModel)]="submitLabel">
+        <br>
+        <br>
+            <label for="day">Day of the Week:&ensp;</label>
+        <select name="day" [(ngModel)]="submitDay">
+                <!-- day of week slot/type -->
+                <option *ngFor="let d of daysOfWeek" [ngValue]="d">{{d}}</option>
+        </select>
+        <br>
+        <br>
+    <label for="meal">Meal:&ensp;</label>
+        <select name ="meal" [(ngModel)]="submitMeal">
+                <!-- meal slot/type -->
+                <option *ngFor="let m of meals" [ngValue]="m">{{m}}</option>
+        </select>
+        <br>
+        <br>
+        <input type="submit" (click)="updateCalendar()">
+        <br>
+    <br>
+    <br>
+         <button (click)="switchCustomTray()">Use Saved Recipes</button>
     </div>
-</select>
-<br>
-<input type="submit">
+
+    
+<div *ngIf="customTrigger === false">
+    <br>
+    <br>
+    <label for="recipes">Saved Recipes:&ensp;</label>
+        <select name="recipes" [(ngModel)]="submitLabel">
+            <!-- favorite recipes slot/type -->
+            <option  *ngFor="let f of favoriteRecipes; index as i" [ngValue]="favoriteRecipes[i].label">
+            {{favoriteRecipes[i].label}}
+            </option>
+        </select>
+    <br>
+    <br>
+    <label for="day">Day of the Week:&ensp;</label>
+        <select name="day" [(ngModel)]="submitDay">
+                <!-- day of week slot/type -->
+                <option *ngFor="let d of daysOfWeek" [ngValue]="d">{{d}}</option>
+        </select>
+    <br>
+    <br>
+    <label for="meal">Meal:&ensp;</label>
+        <select name ="meal" [(ngModel)]="submitMeal">
+                <!-- meal slot/type -->
+                <option *ngFor="let m of meals" [ngValue]="m">{{m}}</option>
+        </select>
+    <br>
+    <br>
+        <input type="submit" (click)="updateCalendar()">
+    <br>
+    <br>
+    <br>
+     <button (click)="switchCustomTray()">Create Custom Recipe</button>
+</div>
 
 </html>

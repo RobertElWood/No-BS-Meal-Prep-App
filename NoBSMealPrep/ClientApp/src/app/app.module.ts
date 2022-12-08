@@ -16,6 +16,7 @@ import { Secret } from './secret';
 import { FavoritesViewComponent } from './components/favorites-view/favorites-view.component';
 import { FavoritesListComponent } from './components/favorites-list/favorites-list.component';
 import { GroceryListComponent } from './components/grocery-list/grocery-list.component';
+import { CalendarComponent } from './components/calendar/calendar.component';
 
 @NgModule({
   declarations: [
@@ -29,6 +30,7 @@ import { GroceryListComponent } from './components/grocery-list/grocery-list.com
     FavoritesViewComponent,
     FavoritesListComponent,
     GroceryListComponent,
+    CalendarComponent,
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
@@ -44,6 +46,7 @@ import { GroceryListComponent } from './components/grocery-list/grocery-list.com
       { path: 'favorites-view/:id', component: FavoritesViewComponent, data:{requiresLogin: true}},
       { path: 'favorites-list', component: FavoritesListComponent},
       { path: 'grocery-list', component: GroceryListComponent },
+      { path: 'calendar', component: CalendarComponent },
     ])
   ],
   providers: [

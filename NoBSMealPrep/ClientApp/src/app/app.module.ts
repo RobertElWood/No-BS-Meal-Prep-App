@@ -43,7 +43,7 @@ import { CalendarComponent } from './components/calendar/calendar.component';
       { path: 'fetch-data', component: FetchDataComponent },
       { path: 'recipe-list', component: RecipeListComponent},
       { path: 'recipe-view/:id', component: RecipeViewComponent},
-      { path: 'favorites-view/:id', component: FavoritesViewComponent, data:{requiresLogin: true}},
+      { path: 'favorites-view/:id', component: FavoritesViewComponent},
       { path: 'favorites-list', component: FavoritesListComponent},
       { path: 'grocery-list', component: GroceryListComponent },
       { path: 'calendar', component: CalendarComponent },

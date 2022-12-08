@@ -110,7 +110,7 @@ export class RecipeViewComponent implements OnInit {
       });
       
     } 
-    else { //If the user IS in our database, will
+    else { //If the user IS in our database, will get the user in question and will add their info to the foreign key value of savedRecipe.
       this.userDb.getOneUser(this.user.id).subscribe((result: User) => {
         this.userPosted = result;
         this.savedRecipe.label = this.foundRecipe[0].recipe.label;

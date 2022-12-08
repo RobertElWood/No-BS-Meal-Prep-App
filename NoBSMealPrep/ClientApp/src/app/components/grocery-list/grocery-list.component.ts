@@ -46,7 +46,6 @@ export class GroceryListComponent implements OnInit {
 
   loggedIn: boolean = false;
 
-  
 
   constructor(private groceryDb:GroceryDbService, private fav: FavDbService, private router:Router, private authService:SocialAuthService, private userDb:UserDbService) { }
   

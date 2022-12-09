@@ -31,6 +31,8 @@ export class FavoritesViewComponent implements OnInit {
   user: SocialUser = {} as SocialUser;
 
   loggedIn: boolean = false;
+
+  
   
   constructor(private fav: FavDbService,  private recipeAPI: RecipeService, private grocerylistAPI: GroceryDbService, private authService: SocialAuthService, private route: ActivatedRoute, private router: Router) { }
 

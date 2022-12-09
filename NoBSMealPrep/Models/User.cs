@@ -11,5 +11,7 @@ public partial class User
 
     public string? Logininfo { get; set; }
 
+    public virtual ICollection<Calendar> Calendars { get; } = new List<Calendar>();
+
     public virtual ICollection<FavoriteRecipe> FavoriteRecipes { get; } = new List<FavoriteRecipe>();
 }

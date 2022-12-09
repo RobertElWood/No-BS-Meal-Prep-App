@@ -48,19 +48,19 @@
     <tbody>
         <tr>
             <th>Breakfast</th>
-            <td *ngFor="let b of breakfastItems; index as i">{{b}}</td>
+            <td *ngFor="let b of breakfastItems; index as i">{{b}}<button *ngIf="b !== null" (click)="deleteCalItem(b, meals[0], daysOfWeek[i])">Delete</button></td>
         </tr>
         <tr>
             <th>Lunch</th>
-            <td *ngFor="let l of lunchItems; index as i">{{l}}</td>
+            <td *ngFor="let l of lunchItems; index as i">{{l}}<button *ngIf="l !== null" (click)="deleteCalItem(l, meals[1], daysOfWeek[i])">Delete</button></td>
         </tr>
         <tr>
             <th>Dinner</th>
-            <td *ngFor="let d of dinnerItems; index as i">{{d}}</td>
+            <td *ngFor="let d of dinnerItems; index as i">{{d}}<button *ngIf="d !== null" (click)="deleteCalItem(d, meals[2], daysOfWeek[i])">Delete</button></td>
         </tr>
         <tr>
             <th>Snacks</th>
-            <td *ngFor="let s of snacksItems; index as i">{{s}}</td>
+            <td *ngFor="let s of snacksItems; index as i">{{s}}<button *ngIf="s !== null" (click)="deleteCalItem(s, meals[3], daysOfWeek[i])">Delete</button></td>
         </tr>
     </tbody>
 </table>
@@ -101,8 +101,8 @@
     <label for="recipes">Saved Recipes:&ensp;</label>
         <select name="recipes" [(ngModel)]="submitLabel">
             <!-- favorite recipes slot/type -->
-            <option  *ngFor="let f of favoriteRecipes; index as i" [ngValue]="favoriteRecipes[i].label">
-            {{favoriteRecipes[i].label}}
+            <option  *ngFor="let f of favoriteRecipesByUser; index as i" [ngValue]="favoriteRecipesByUser[i].label">
+            {{favoriteRecipesByUser[i].label}}
             </option>
         </select>
     <br>

@@ -15,6 +15,7 @@ namespace NoBSMealPrep.Controllers
     {
         private readonly MealPrepDbContext _context;
 
+
         public CalendarController(MealPrepDbContext context)
         {
             _context = context;
@@ -77,10 +78,30 @@ namespace NoBSMealPrep.Controllers
         [HttpPost]
         public async Task<ActionResult<Calendar>> PostCalendar(Calendar calendar)
         {
-            _context.Calendars.Add(calendar);
-            await _context.SaveChangesAsync();
+            bool present = false;
 
-            return CreatedAtAction("GetCalendar", new { id = calendar.Id }, calendar);
+            List<Calendar> calendarItems = await _context.Calendars.ToListAsync();
+
+            for (int i = 0; i < calendarItems.Count(); i++)
+            {
+                
+                if (calendarItems[i].UserInfo == calendar.UserInfo && calendarItems[i].Label == calendar.Label && calendarItems[i].Day == calendar.Day && calendarItems[i].Meal == calendar.Meal)
+                {
+                    present = true;
+                }
+            }
+
+            if (present == true)
+            {
+                return NoContent();
+            }
+            else
+            {
+                _context.Calendars.Add(calendar);
+                await _context.SaveChangesAsync();
+
+                return CreatedAtAction("GetCalendar", new { id = calendar.Id }, calendar);
+            }
         }
 
         // DELETE: api/Calendar/5

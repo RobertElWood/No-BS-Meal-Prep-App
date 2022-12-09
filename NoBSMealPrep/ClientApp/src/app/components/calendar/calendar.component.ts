@@ -16,6 +16,8 @@ export class CalendarComponent implements OnInit {
 
   favoriteRecipes: FavoriteRecipe[] = [];
 
+  favoriteRecipesByUser: FavoriteRecipe[]=[];
+
   calendarData: Calendar[] = [];
 
   currentUser: User = {} as User;
@@ -55,44 +57,67 @@ export class CalendarComponent implements OnInit {
       this.user = user;
       this.loggedIn = (user != null);
 
+      this.favoriteRecipes=[];
+      this.favoriteRecipesByUser=[];
+
         this.fav.getFavoriteList().subscribe((results: FavoriteRecipe[]) => {
           this.favoriteRecipes = results;
 
-          this.getUserCalendar();
+          this.userDb.getOneUser(this.user.id).subscribe((result : User) => {
+            this.currentUser = result;
+      
+            for(let i=0; i < this.favoriteRecipes.length; i++){
+              if (this.favoriteRecipes[i].favoritedby === this.currentUser.id){
+                this.favoriteRecipesByUser.push(this.favoriteRecipes[i]); //adds all favorited results to the user's favorites list
+              }
+            }      
 
+            this.getUserCalendar();
+
+          });
         });
     });
   }
 
+
+  //Gets current user data, then sorts calendar data in Db by user
+  //Creates calendar based on the sorted calendar data.
+  //Calls the createCalendar() method to do this.
   getUserCalendar() {
     this.calendarData=[];
     this.calendarDataByUser=[];
 
-    this.userDb.getOneUser(this.user.id).subscribe((result : User) => {
-      this.currentUser = result;
-
-        this.calendarDb.getCalendarItems().subscribe((results: Calendar[]) => {
-          this.calendarData = results;
+    this.calendarDb.getCalendarItems().subscribe((results: Calendar[]) => {
+    this.calendarData = results;
           
-          for(let i = 0; i < this.calendarData.length; i++) {
-            if(this.calendarData[i].userInfo === this.currentUser.id) {
-              this.calendarDataByUser.push(this.calendarData[i]);
-            }
+      for(let i = 0; i < this.calendarData.length; i++) {
+        if(this.calendarData[i].userInfo === this.currentUser.id) {
+            this.calendarDataByUser.push(this.calendarData[i]);
           }
+        }
 
-          for(let i = 0; i < this.calendarDataByUser.length; i++) {
-            this.createCalendar(this.calendarDataByUser[i].label, this.calendarDataByUser[i].day, this.calendarDataByUser[i].meal);
-          }
-        });
+        for(let i = 0; i < this.calendarDataByUser.length; i++) {
+          this.createCalendar(this.calendarDataByUser[i].label, this.calendarDataByUser[i].day, this.calendarDataByUser[i].meal);
+        }
     });
   }
-
 
 
   //Places item in the calendar at the appropriate index of each array property (e.g. breakfastItems)
   //Bound to each <td> value in calendar by [(ngModel)].
   updateCalendar(){
   
+    //conditional, check values in arrays first
+    //prompt the user: Hey, there's something in this slot...Would you like to replace this meal, or add?
+    //Take user input. If they type "add" (or click a button), concat to the item then push
+    //if they click replace, then replace with text and PUT it in place at the id of the object in question.
+
+    //Could also do this with a trigger which makes a new input field in the html appear instead of a prompt.
+    //When the conditional for "hey, there's something in this slot" is triggered...
+    //Have a method be activated within that conditional which causes the dialog box to appear.
+
+    //THEN, bind the resulting dialog buttons to methods which A) REPLACE the value, or B) CONCAT to the value
+
     if(this.submitMeal === 'Breakfast') {
 
       let targetIndex : number = this.daysOfWeek.indexOf(this.submitDay);
@@ -118,8 +143,14 @@ export class CalendarComponent implements OnInit {
       this.snacksItems[targetIndex] = this.submitLabel;
     } 
   
+    let newCalItem : Calendar = {label: this.submitLabel, day: this.submitDay, meal: this.submitMeal, userInfo: this.currentUser.id} as Calendar;
+
+    this.calendarDb.postCalendarItem(newCalItem).subscribe(() => {
+    })
   }
 
+  //Just the same as updateCalendar(), but doesn't interact with ngModel
+  //Instead, can be fed values for calendar as parameters
   createCalendar(submitLabel: any, submitDay: any, submitMeal: any){
   
     if(submitMeal === 'Breakfast') {
@@ -149,6 +180,58 @@ export class CalendarComponent implements OnInit {
   
   }
 
+  deleteCalItem(label: string, meal: string, day: string){
+
+    this.calendarDb.getCalendarItems().subscribe((results: Calendar[]) => {
+      this.calendarData = results;
+  
+      let userData : Calendar[] = [];
+
+      let foundCal : Calendar = {} as Calendar;
+
+      for(let i = 0; i < this.calendarData.length; i++) {
+        if(this.calendarData[i].userInfo === this.currentUser.id) {
+            userData.push(this.calendarData[i]);
+          }
+        }
+
+       for(let i = 0; i < userData.length; i++){
+        if(userData[i].label === label){
+          if(userData[i].meal === meal) {
+            if(userData[i].day === day){
+              foundCal = userData[i];
+            }
+          }
+        }
+       }
+
+
+      this.calendarDb.deleteCalendarItem(foundCal.id).subscribe(() => {
+        
+        let index = this.daysOfWeek.indexOf(day);
+      
+        if(meal === 'Breakfast'){
+
+          this.breakfastItems[index] = null;
+        }
+        else if(meal === 'Lunch') {
+
+          this.lunchItems[index] = null;
+        } 
+        else if(meal === 'Dinner') {
+    
+          this.dinnerItems[index] = null;
+        } 
+        else if(meal === 'Snacks') {
+
+          this.snacksItems[index] = null;
+        } 
+
+      });
+    })
+  }
+
+  //Toggles custom entry tray on and off
   switchCustomTray(){
     if(this.customTrigger === false) {
       this.customTrigger = true;

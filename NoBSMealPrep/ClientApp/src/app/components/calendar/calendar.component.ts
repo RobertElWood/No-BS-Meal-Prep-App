@@ -1,5 +1,6 @@
 import { SocialAuthService, SocialUser } from '@abacritt/angularx-social-login';
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { CalendarDbService } from 'src/app/services/calendar-db.service';
 import { FavDbService } from 'src/app/services/fav-db.service';
 import { UserDbService } from 'src/app/services/user-db.service';
@@ -51,7 +52,7 @@ export class CalendarComponent implements OnInit {
 
   loggedIn: boolean = false;
 
-  constructor(private fav : FavDbService, private calendarDb : CalendarDbService, private userDb : UserDbService, private authService : SocialAuthService) {}
+  constructor(private fav : FavDbService, private calendarDb : CalendarDbService, private userDb : UserDbService, private authService : SocialAuthService, private router : Router) {}
   
   ngOnInit(): void {
     this. sub = this.sub = this.authService.authState.subscribe((user) => {
@@ -98,6 +99,12 @@ export class CalendarComponent implements OnInit {
         }
 
         for(let i = 0; i < this.calendarDataByUser.length; i++) {
+          if(this.calendarDataByUser[i].label.includes('%%')){
+            this.calendarDataByUser[i].label = this.calendarDataByUser[i].label.split('%%');
+          }
+        }
+
+        for(let i = 0; i < this.calendarDataByUser.length; i++) {
           this.createCalendar(this.calendarDataByUser[i].label, this.calendarDataByUser[i].day, this.calendarDataByUser[i].meal);
         }
     });
@@ -108,8 +115,6 @@ export class CalendarComponent implements OnInit {
   //Gets its values from submitDay, Meal and Label, which are bound by [(ngModel)] to user input.
   //If there is already a value in each index array, will call the askToUpdate method instead.
   updateCalendar(){
-   
-    let inotEmpty:boolean = false;
 
       if(this.submitMeal === 'Breakfast') {
 
@@ -189,35 +194,35 @@ export class CalendarComponent implements OnInit {
 
   //Just the same as updateCalendar(), but doesn't interact with ngModel
   //Instead, can be fed values for calendar as parameters
-  createCalendar(submitLabel: any, submitDay: any, submitMeal: any){
-  
-    if(submitMeal === 'Breakfast') {
+  createCalendar(Label: any, Day: any, Meal: any){
 
-      let targetIndex : number = this.daysOfWeek.indexOf(submitDay);
+    if(Meal === 'Breakfast') {
 
-      this.breakfastItems[targetIndex] = submitLabel;
+      let targetIndex : number = this.daysOfWeek.indexOf(Day);
+
+      this.breakfastItems[targetIndex] = Label;
     } 
-    else if(submitMeal === 'Lunch') {
+    else if(Meal === 'Lunch') {
 
-      let targetIndex : number = this.daysOfWeek.indexOf(submitDay);
+      let targetIndex : number = this.daysOfWeek.indexOf(Day);
 
-      this.lunchItems[targetIndex] = submitLabel;
+      this.lunchItems[targetIndex] = Label;
     } 
-    else if(submitMeal === 'Dinner') {
+    else if(Meal === 'Dinner') {
 
-      let targetIndex : number = this.daysOfWeek.indexOf(submitDay);
+      let targetIndex : number = this.daysOfWeek.indexOf(Day);
 
-      this.dinnerItems[targetIndex] = submitLabel;
+      this.dinnerItems[targetIndex] = Label;
     } 
-    else if(submitMeal === 'Snacks') {
+    else if(Meal === 'Snacks') {
 
-      let targetIndex : number = this.daysOfWeek.indexOf(submitDay);
+      let targetIndex : number = this.daysOfWeek.indexOf(Day);
 
-      this.snacksItems[targetIndex] = submitLabel;
+      this.snacksItems[targetIndex] = Label;
     } 
   }
 
-  deleteCalItem(label: string, meal: string, day: string){
+  deleteCalItem(label: any, meal: string, day: string){
 
     this.calendarDb.getCalendarItems().subscribe((results: Calendar[]) => {
       this.calendarData = results;
@@ -226,6 +231,18 @@ export class CalendarComponent implements OnInit {
 
       let foundCal : Calendar = {} as Calendar;
 
+      let labelFormatted : string;
+
+
+      if(Array.isArray(label) === true) {
+        labelFormatted = label.join('%%');
+      } 
+      else
+      {
+        labelFormatted = label;
+      }
+
+
       for(let i = 0; i < this.calendarData.length; i++) {
         if(this.calendarData[i].userInfo === this.currentUser.id) {
             userData.push(this.calendarData[i]);
@@ -233,7 +250,7 @@ export class CalendarComponent implements OnInit {
         }
 
        for(let i = 0; i < userData.length; i++){
-        if(userData[i].label === label){
+        if(userData[i].label === labelFormatted){
           if(userData[i].meal === meal) {
             if(userData[i].day === day){
               foundCal = userData[i];
@@ -241,7 +258,6 @@ export class CalendarComponent implements OnInit {
           }
         }
        }
-
 
       this.calendarDb.deleteCalendarItem(foundCal.id).subscribe(() => {
         
@@ -270,7 +286,7 @@ export class CalendarComponent implements OnInit {
 
 //sweetAlert 2 buttons --> https://sweetalert2.github.io/#configuration  - URL to sweetAlert2 home'
   
-  askToUpdate(recipeName : string) { //popup with buttons
+  askToUpdate(recipeName : any) { //popup with buttons
     Swal.fire({
       title: 'What would you like?',
       text: 'There is already a recipe at this meal time',
@@ -309,11 +325,8 @@ export class CalendarComponent implements OnInit {
           newCalItem.meal = this.submitMeal;
           newCalItem.userInfo = this.currentUser.id;
 
-          console.log(newCalItem);
-
           this.calendarDb.updateCalendarItem(submitId, newCalItem).subscribe(() => {
             this.createCalendar(this.submitLabel, this.submitDay, this.submitMeal);
-            
           });
         });
 
@@ -328,45 +341,58 @@ export class CalendarComponent implements OnInit {
         let calArray : Calendar[] = [];
 
         let nameArray : string[] = [];
+        
         let newName : string;
+        let currentName : string;
 
-        if(recipeName.includes('<br>')){
-          nameArray = recipeName.split('<br>');
+        if(Array.isArray(recipeName) === true){
+
+          nameArray = recipeName;
+          currentName = recipeName.join('%%');
+
           nameArray.push(this.submitLabel);
+          newName = nameArray.join('%%');
 
-          newName = nameArray.join('<br>');
         } 
         else
         {
           nameArray[0] = recipeName;
           nameArray[1] = this.submitLabel;
 
-          newName = nameArray.join('<br>');
+          newName = nameArray.join('%%');
         }
 
         this.calendarDb.getCalendarItems().subscribe((results: Calendar[]) => {
           calArray = results;
 
-          for(let i = 0; i < calArray.length; i++){
-            if((calArray[i].label === recipeName) && (calArray[i].day === this.submitDay) && (calArray[i].meal === this.submitMeal)) {
-              submitId = calArray[i].id;
+          if(Array.isArray(recipeName) === true) { 
+            for(let i = 0; i < calArray.length; i++){
+              if((calArray[i].label === currentName) && (calArray[i].day === this.submitDay) && (calArray[i].meal === this.submitMeal)) {
+                submitId = calArray[i].id;
+              }
+            }
+          } 
+          else 
+          {
+            for(let i = 0; i < calArray.length; i++){
+              if((calArray[i].label === recipeName) && (calArray[i].day === this.submitDay) && (calArray[i].meal === this.submitMeal)) {
+                submitId = calArray[i].id;
+              }
             }
           }
-
+           
           newCalItem.id = submitId;
           newCalItem.label = newName;
           newCalItem.day = this.submitDay;
           newCalItem.meal = this.submitMeal;
           newCalItem.userInfo = this.currentUser.id;
 
-          console.log(newCalItem);
-
           this.calendarDb.updateCalendarItem(submitId, newCalItem).subscribe(() => {
-            this.createCalendar(newName, this.submitDay, this.submitMeal);      
+            this.createCalendar(nameArray, this.submitDay, this.submitMeal);     
           });
         });
 
-        Swal.fire('Updating', 'Your new Recipe was added to this meal', 'info' );
+        Swal.fire('Adding!', 'Your new Recipe was added on to this meal', 'info' );
 
       } 
       else if (result.dismiss === Swal.DismissReason.cancel) {
@@ -375,7 +401,13 @@ export class CalendarComponent implements OnInit {
     });
   }
 
+  checkIfArray(tdValue : any) {
+    return Array.isArray(tdValue);
+  }
 
+  listArray(tdValue : any[]){
+    return tdValue.join(' ');
+  }
 
   //Toggles custom entry tray on and off
   switchCustomTray(){

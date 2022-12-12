@@ -7,8 +7,6 @@ import { RouterModule } from '@angular/router';
 import { AppComponent } from './app.component';
 import { NavMenuComponent } from './nav-menu/nav-menu.component';
 import { HomeComponent } from './home/home.component';
-import { CounterComponent } from './counter/counter.component';
-import { FetchDataComponent } from './fetch-data/fetch-data.component';
 import { RecipeListComponent } from './components/recipe-list/recipe-list.component';
 import { RecipeViewComponent } from './components/recipe-view/recipe-view.component';
 import { GoogleLoginProvider, SocialAuthServiceConfig, SocialLoginModule } from '@abacritt/angularx-social-login';
@@ -23,8 +21,6 @@ import { CalendarComponent } from './components/calendar/calendar.component';
     AppComponent,
     NavMenuComponent,
     HomeComponent,
-    CounterComponent,
-    FetchDataComponent,
     RecipeListComponent,
     RecipeViewComponent,
     FavoritesViewComponent,
@@ -39,8 +35,6 @@ import { CalendarComponent } from './components/calendar/calendar.component';
     SocialLoginModule,
     RouterModule.forRoot([
       { path: '', component: HomeComponent, pathMatch: 'full' },
-      { path: 'counter', component: CounterComponent },
-      { path: 'fetch-data', component: FetchDataComponent },
       { path: 'recipe-list', component: RecipeListComponent},
       { path: 'recipe-view/:id', component: RecipeViewComponent},
       { path: 'favorites-view/:id', component: FavoritesViewComponent},

@@ -105,9 +105,7 @@ export class RecipeViewComponent implements OnInit {
         this.savedRecipe.calories = this.foundRecipe[0].recipe.calories;
         this.savedRecipe.favoritedby = this.userPosted.id;
 
-        console.log("IF: the id of the person posted is: " + this.userPosted.id);
-
-        this.favRecipeAPI.postFavoriteRecipe(this.savedRecipe).subscribe((resultrecipe: FavoriteRecipe) => {console.log(resultrecipe)});
+        this.favRecipeAPI.postFavoriteRecipe(this.savedRecipe).subscribe(() => {});
         // alert("Your recipe has been successfully saved!");
         this.recipeSavedAlert();
       });
@@ -122,9 +120,7 @@ export class RecipeViewComponent implements OnInit {
         this.savedRecipe.calories = this.foundRecipe[0].recipe.calories;
         this.savedRecipe.favoritedby = this.userPosted.id;
 
-        console.log("ELSE: the id of the person posted is:" + this.userPosted.id);
-
-        this.favRecipeAPI.postFavoriteRecipe(this.savedRecipe).subscribe((resultrecipe: FavoriteRecipe) => {console.log(resultrecipe)});
+        this.favRecipeAPI.postFavoriteRecipe(this.savedRecipe).subscribe(() => {});
         // alert("Your recipe has been successfully saved!");
         this.recipeSavedAlert();
       });

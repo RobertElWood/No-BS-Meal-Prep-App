@@ -1,61 +1,47 @@
-<header>
-  <nav
-    class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3"
-  >
-    <div class="container">
-      <a class="navbar-brand" [routerLink]="['/']">NoBSMealPrep</a>
-      <button
-        class="navbar-toggler"
-        type="button"
-        data-toggle="collapse"
-        data-target=".navbar-collapse"
-        aria-label="Toggle navigation"
-        [attr.aria-expanded]="isExpanded"
-        (click)="toggle()"
-      >
-        <span class="navbar-toggler-icon"></span>
-      </button>
-      <div
-        class="navbar-collapse collapse d-sm-inline-flex justify-content-end"
-        [ngClass]="{ show: isExpanded }"
-      >
-        <ul class="navbar-nav flex-grow">
-          <li
-            class="nav-item"
-            [routerLinkActive]="['link-active']"
-            [routerLinkActiveOptions]="{ exact: true }"
+7  <header class="fixed-top">
+    <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
+        <div class="container">
+          <div id="navbar"
+            class="navbar-collapse collapse d-sm-inline-flex justify-content-end"
+            [ngClass]="{ show: isExpanded }"
           >
-            <a class="nav-link text-dark" [routerLink]="['/']">Home</a>
-          </li>
-          <li class="nav-item" [routerLinkActive]="['link-active']">
-            <a class="nav-link text-dark" [routerLink]="['/recipe-list']"
-              >Search Recipes</a
-            >
-          </li>
-          <li class="nav-item" [routerLinkActive]="['link-active']">
-            <div *ngIf="!loggedIn">
-            <a class="nav-link text-dark" [routerLink]="['/favorites-list']"
-              >Planner</a
-            >
+            <ul class="navbar-nav flex-grow">
+              <li
+                class="nav-item"
+                [routerLinkActive]="['link-active']"
+                [routerLinkActiveOptions]="{ exact: true }"
+              >
+                <a class="nav-link text-dark" [routerLink]="['/']">Home</a>
+              </li>
+              <li class="nav-item" [routerLinkActive]="['link-active']">
+                <a class="nav-link text-dark" [routerLink]="['/recipe-list']"
+                  >Search Recipes</a
+                >
+              </li>
+              <li class="nav-item" [routerLinkActive]="['link-active']">
+                <div *ngIf="!loggedIn">
+                <a class="nav-link text-dark" [routerLink]="['/favorites-list']"
+                  >Planner</a
+                >
+              </div>
+              <div *ngIf="loggedIn">
+                <a class="nav-link text-dark" [routerLink]="['/favorites-list']"
+                  >{{user.name}}'s Planner</a
+                >
+              </div>
+              </li>
+              <li class="nav-item" [routerLinkActive]="['link-active']">
+                <a class="nav-link text-dark" [routerLink]="['/grocery-list']"
+                  >Grocery List</a
+                >
+              </li>
+              <li class="nav-item">
+                <asl-google-signin-button *ngIf="!loggedIn" type='icon' size='medium'></asl-google-signin-button>
+                <button class="btn btn-outline-dark" *ngIf="loggedIn"  (click)="signOut()">Sign Out
+                </button>
+                </li>            
+            </ul>
           </div>
-          <div *ngIf="loggedIn">
-            <a class="nav-link text-dark" [routerLink]="['/favorites-list']"
-              >{{user.name}}'s Planner</a
-            >
-          </div>
-          </li>
-          <li class="nav-item" [routerLinkActive]="['link-active']">
-            <a class="nav-link text-dark" [routerLink]="['/grocery-list']"
-              >Grocery List</a
-            >
-          </li>
-          <li class="nav-item">
-            <asl-google-signin-button *ngIf="!loggedIn" type='icon' size='medium'></asl-google-signin-button>
-            <button class="btn btn-outline-dark" *ngIf="loggedIn"  (click)="signOut()">Sign Out
-            </button>
-            </li>            
-        </ul>
-      </div>
-    </div>
+        </div>
   </nav>
 </header>

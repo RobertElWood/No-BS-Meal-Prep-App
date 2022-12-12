@@ -20,6 +20,10 @@ export class CalendarDbService {
     return this.http.get<Calendar[]>(this.baseURL + this.controllerPath);
   }
 
+  getSingleCalendarItem(id:number): Observable<Calendar> { //gets one ingredient from the calendar db
+    return this.http.get<Calendar>(this.baseURL + this.controllerPath + `${id}`);
+  }
+
   postCalendarItem(newCalItem: Calendar):Observable<any> { //create an object to add to db
     return this.http.post(this.baseURL + this.controllerPath, newCalItem);
   }

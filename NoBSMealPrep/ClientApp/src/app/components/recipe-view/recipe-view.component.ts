@@ -8,6 +8,7 @@ import { FavoriteRecipe } from 'src/interfaces/FavoriteRecipe';
 import { User } from 'src/interfaces/User';
 import { UserDbService } from 'src/app/services/user-db.service';
 import { FavDbService } from 'src/app/services/fav-db.service';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-recipe-view',
@@ -80,7 +81,8 @@ export class RecipeViewComponent implements OnInit {
       });
     }
     else {
-      alert("Please log in to save this recipe to your favorites!");
+      // alert("Please log in to save this recipe to your favorites!");
+      this.noUserSaveRecipeAttempt();
     }
   }
 
@@ -106,7 +108,8 @@ export class RecipeViewComponent implements OnInit {
         console.log("IF: the id of the person posted is: " + this.userPosted.id);
 
         this.favRecipeAPI.postFavoriteRecipe(this.savedRecipe).subscribe((resultrecipe: FavoriteRecipe) => {console.log(resultrecipe)});
-        alert("Your recipe has been successfully saved!");
+        // alert("Your recipe has been successfully saved!");
+        this.recipeSavedAlert();
       });
       
     } 
@@ -122,11 +125,26 @@ export class RecipeViewComponent implements OnInit {
         console.log("ELSE: the id of the person posted is:" + this.userPosted.id);
 
         this.favRecipeAPI.postFavoriteRecipe(this.savedRecipe).subscribe((resultrecipe: FavoriteRecipe) => {console.log(resultrecipe)});
-        alert("Your recipe has been successfully saved!");
+        // alert("Your recipe has been successfully saved!");
+        this.recipeSavedAlert();
       });
     }
   }
   
+  recipeSavedAlert() {
+    Swal.fire({
+      title: 'Recipe Saved!',
+      text: 'Check your Planner to see your saved list.',
+    });
+  }
+
+  noUserSaveRecipeAttempt() {
+    Swal.fire({
+      title: 'Cannot save recipe!',
+      text: 'Please log in first.',
+    });
+  }
+
   //Maybe include a check for if a recipe is ALREADY in someone's favorites, as well?
   //If so, display an alert which tells the user this information.
 

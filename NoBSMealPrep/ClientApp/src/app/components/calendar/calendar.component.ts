@@ -6,6 +6,7 @@ import { UserDbService } from 'src/app/services/user-db.service';
 import { Calendar } from 'src/interfaces/Calendar';
 import { FavoriteRecipe } from 'src/interfaces/FavoriteRecipe';
 import { User } from 'src/interfaces/User';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-calendar',
@@ -106,7 +107,6 @@ export class CalendarComponent implements OnInit {
   //Places item in the calendar at the appropriate index of each array property (e.g. breakfastItems)
   //Bound to each <td> value in calendar by [(ngModel)].
   updateCalendar(){
-  
     //conditional, check values in arrays first
     //prompt the user: Hey, there's something in this slot...Would you like to replace this meal, or add?
     //Take user input. If they type "add" (or click a button), concat to the item then push
@@ -118,35 +118,43 @@ export class CalendarComponent implements OnInit {
 
     //THEN, bind the resulting dialog buttons to methods which A) REPLACE the value, or B) CONCAT to the value
 
-    if(this.submitMeal === 'Breakfast') {
+    let inotEmpty:boolean = false;
 
-      let targetIndex : number = this.daysOfWeek.indexOf(this.submitDay);
 
-      this.breakfastItems[targetIndex] = this.submitLabel;
-    } 
-    else if(this.submitMeal === 'Lunch') {
+      if(this.submitMeal === 'Breakfast') {
 
-      let targetIndex : number = this.daysOfWeek.indexOf(this.submitDay);
+        let targetIndex : number = this.daysOfWeek.indexOf(this.submitDay);
 
-      this.lunchItems[targetIndex] = this.submitLabel;
-    } 
-    else if(this.submitMeal === 'Dinner') {
+        //if there something at target index not null.
+        if(this.breakfastItems[targetIndex] !== null ) {
+          //prompt user to edit old one OR add to existing recipe string.
+          this.askToUpdate();
+        }
+        
+        this.breakfastItems[targetIndex] = this.submitLabel;
+      } 
+      else if(this.submitMeal === 'Lunch') {
 
-      let targetIndex : number = this.daysOfWeek.indexOf(this.submitDay);
+        let targetIndex : number = this.daysOfWeek.indexOf(this.submitDay);
 
-      this.dinnerItems[targetIndex] = this.submitLabel;
-    } 
-    else if(this.submitMeal === 'Snacks') {
+        this.lunchItems[targetIndex] = this.submitLabel;
+      } 
+      else if(this.submitMeal === 'Dinner') {
 
-      let targetIndex : number = this.daysOfWeek.indexOf(this.submitDay);
+        let targetIndex : number = this.daysOfWeek.indexOf(this.submitDay);
 
-      this.snacksItems[targetIndex] = this.submitLabel;
-    } 
-  
-    let newCalItem : Calendar = {label: this.submitLabel, day: this.submitDay, meal: this.submitMeal, userInfo: this.currentUser.id} as Calendar;
+        this.dinnerItems[targetIndex] = this.submitLabel;
+      } 
+      else if(this.submitMeal === 'Snacks') {
 
-    this.calendarDb.postCalendarItem(newCalItem).subscribe(() => {
-    })
+        let targetIndex : number = this.daysOfWeek.indexOf(this.submitDay);
+
+        this.snacksItems[targetIndex] = this.submitLabel;
+      } 
+    
+      let newCalItem : Calendar = {label: this.submitLabel, day: this.submitDay, meal: this.submitMeal, userInfo: this.currentUser.id} as Calendar;
+
+      this.calendarDb.postCalendarItem(newCalItem).subscribe(() => {});
   }
 
   //Just the same as updateCalendar(), but doesn't interact with ngModel
@@ -177,7 +185,6 @@ export class CalendarComponent implements OnInit {
 
       this.snacksItems[targetIndex] = submitLabel;
     } 
-  
   }
 
   deleteCalItem(label: string, meal: string, day: string){
@@ -230,6 +237,49 @@ export class CalendarComponent implements OnInit {
       });
     })
   }
+
+//sweetAlert 2 buttons --> https://sweetalert2.github.io/#configuration  - URL to sweetAlert2 home'
+  
+  askToUpdate() { //popup with buttons
+    Swal.fire({
+      title: 'What would you like?',
+      text: 'There is already a recipe at this meal time',
+      icon: 'question',
+      showCancelButton: true,
+      showDenyButton: true,
+      confirmButtonColor: '#344966',
+      denyButtonColor: '#344966',
+      confirmButtonText: 'Replace this recipe?',
+      denyButtonText: 'Add another recipe?',
+      cancelButtonText: 'Cancel',
+
+    }).then((result) => {
+      if (result.value) {
+        //if the user wants to replace old recipe with new one
+        let newCalItem : Calendar = {} as Calendar;
+
+        let id : number=0;
+        /////PICK UP HERE
+
+
+        this.submitLabel
+        this.calendarDb.getSingleCalendarItem(id).subscribe
+
+
+        // this.calendarDb.updateCalendarItem
+
+        Swal.fire('Replacing', 'Replaced the old recipe with your new recipe', 'info' );
+      }
+      else if (result.isDenied) {
+        Swal.fire('Updating', 'Your new Recipe was added to this meal', 'info' );
+      } 
+      else if (result.dismiss === Swal.DismissReason.cancel) {
+        Swal.fire('Cancelled', 'No changes made', 'error'); //put code for yes here
+      }
+    });
+  }
+
+
 
   //Toggles custom entry tray on and off
   switchCustomTray(){

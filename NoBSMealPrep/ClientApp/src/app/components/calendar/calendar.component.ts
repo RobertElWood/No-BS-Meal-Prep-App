@@ -1,6 +1,5 @@
 import { SocialAuthService, SocialUser } from '@abacritt/angularx-social-login';
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
 import { CalendarDbService } from 'src/app/services/calendar-db.service';
 import { FavDbService } from 'src/app/services/fav-db.service';
 import { UserDbService } from 'src/app/services/user-db.service';
@@ -12,7 +11,7 @@ import Swal from 'sweetalert2';
 @Component({
   selector: 'app-calendar',
   templateUrl: './calendar.component.html',
-  styleUrls: ['./calendar.component.css']
+  styleUrls: ['./calendar.component.css'],
 })
 export class CalendarComponent implements OnInit {
 
@@ -52,7 +51,7 @@ export class CalendarComponent implements OnInit {
 
   loggedIn: boolean = false;
 
-  constructor(private fav : FavDbService, private calendarDb : CalendarDbService, private userDb : UserDbService, private authService : SocialAuthService, private router : Router) {}
+  constructor(private fav : FavDbService, private calendarDb : CalendarDbService, private userDb : UserDbService, private authService : SocialAuthService) {}
   
   ngOnInit(): void {
     this. sub = this.sub = this.authService.authState.subscribe((user) => {
@@ -388,12 +387,12 @@ export class CalendarComponent implements OnInit {
           newCalItem.userInfo = this.currentUser.id;
 
           this.calendarDb.updateCalendarItem(submitId, newCalItem).subscribe(() => {
-            this.createCalendar(nameArray, this.submitDay, this.submitMeal);     
+            this.createCalendar(nameArray, this.submitDay, this.submitMeal);   
+
           });
         });
 
         Swal.fire('Adding!', 'Your new Recipe was added on to this meal', 'info' );
-
       } 
       else if (result.dismiss === Swal.DismissReason.cancel) {
         Swal.fire('Cancelled', 'No changes made', 'error'); //put code for yes here

@@ -27,17 +27,6 @@ namespace NoBSMealPrep.Controllers
             return await _context.FavoriteRecipes.ToListAsync();
         }
 
-
-        /*[HttpGet] {{old}}
-        public async Task<ActionResult<IEnumerable<FavoriteRecipe>>> GetFavoriteRecipes(int favoritedBy)
-        {
-
-            List<FavoriteRecipe> favRecipes = await _context.FavoriteRecipes.ToListAsync();
-            return favRecipes.Where(f => f.Favoritedby == favoritedBy).ToList();
-
-        }*/
-
-
         // GET: api/FavoriteRecipe/5
         [HttpGet("{id}")]
         public async Task<ActionResult<FavoriteRecipe>> GetFavoriteRecipe(int id)
@@ -51,15 +40,6 @@ namespace NoBSMealPrep.Controllers
 
             return favoriteRecipe;
         }
-
-/*        // GET: api/FavoriteRecipe/favoritedBy
-        [HttpGet("{favoritedBy}")] {{old}}
-        public async Task<ActionResult<IEnumerable<FavoriteRecipe>>> GetFavoriteRecipesByUser(int favoritedBy)
-        {
-            List<FavoriteRecipe> favRecipes = await _context.FavoriteRecipes.ToListAsync();
-            return favRecipes.Where(f => f.Favoritedby == favoritedBy).ToList();
- 
-        }*/
 
         // PUT: api/FavoriteRecipe/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
@@ -97,11 +77,38 @@ namespace NoBSMealPrep.Controllers
         [HttpPost]
         public async Task<ActionResult<FavoriteRecipe>> PostFavoriteRecipe(FavoriteRecipe favoriteRecipe)
         {
-            favoriteRecipe.Id = null;
-            _context.FavoriteRecipes.Add(favoriteRecipe);
-            await _context.SaveChangesAsync();
+            bool inDb = false;
 
-            return CreatedAtAction("GetFavoriteRecipe", new { id = favoriteRecipe.Id }, favoriteRecipe);
+            List<FavoriteRecipe> existingFavRec = await _context.FavoriteRecipes.ToListAsync();
+
+            List<FavoriteRecipe> existingFavRecByUser = existingFavRec.Where(e => e.Favoritedby == favoriteRecipe.Favoritedby).ToList();
+
+
+
+            for (int i = 0; i < existingFavRecByUser.Count(); i++ )
+            {
+                if (existingFavRecByUser[i].Label == favoriteRecipe.Label 
+                    && existingFavRecByUser[i].Image == favoriteRecipe.Image 
+                    && existingFavRecByUser[i].Calories == favoriteRecipe.Calories 
+                    && existingFavRecByUser[i].Uri == favoriteRecipe.Uri)
+                {
+                    inDb = true;
+                }
+            }
+
+            if (inDb == false) // if recipe is not favorited, add to DB / fav list
+            {
+                favoriteRecipe.Id = null;
+                _context.FavoriteRecipes.Add(favoriteRecipe);
+                await _context.SaveChangesAsync();
+
+                return CreatedAtAction("GetFavoriteRecipe", new { id = favoriteRecipe.Id }, favoriteRecipe);
+            }
+            else { // if recipe is in DB, do not add to list and set below string as label.
+                favoriteRecipe.Label = "This recipe is in your favorites already";
+                return favoriteRecipe;       
+            }
+
         }
 
         //edit post method to include a check for the URI. This should allow you to check and see if the recipe has been posted previously.

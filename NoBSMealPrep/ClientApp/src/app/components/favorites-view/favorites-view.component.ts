@@ -7,6 +7,7 @@ import { FavoriteRecipe } from 'src/interfaces/FavoriteRecipe';
 import { GroceryDbService } from 'src/app/services/grocery-db.service';
 import { GroceryList } from 'src/interfaces/GroceryList';
 import { SocialAuthService, SocialUser } from '@abacritt/angularx-social-login';
+import Swal from 'sweetalert2';
 
 
 @Component({
@@ -32,7 +33,7 @@ export class FavoritesViewComponent implements OnInit {
 
   loggedIn: boolean = false;
 
-  
+  ingredientName : any;
   
   constructor(private fav: FavDbService,  private recipeAPI: RecipeService, private grocerylistAPI: GroceryDbService, private authService: SocialAuthService, private route: ActivatedRoute, private router: Router) { }
 
@@ -63,13 +64,6 @@ export class FavoritesViewComponent implements OnInit {
     this.router.navigate(['favorites-list']);
   }
 
-
-  //TO DO: 
-  //Consider adding error handling to prevent adding multiple ingredients to same shopping list
-  //OR make the add button disappear after clicked
-  //OR simply collate all identical items into one QTY in the Grocery list view.
-
-
   //On click, adds the ingredient the user has selected by filling in values of an empty ingredient object.
   addShoppingIngredient(ingString: string){
 
@@ -99,6 +93,7 @@ export class FavoritesViewComponent implements OnInit {
       }
 
       this.grocerylistAPI.postIngredient(this.ingToAdd).subscribe((result: any) => {
+        this.ingredientName = result;
       });
     }
   }
@@ -109,6 +104,7 @@ export class FavoritesViewComponent implements OnInit {
     for(let i = 0; i < this.foundRecipe[0].recipe.ingredientLines.length; i++) {
       this.addShoppingIngredient(this.foundRecipe[0].recipe.ingredientLines[i]);
     }
+    this.addedAllToGroceryList();
   }
 
   //Deletes the recipe in question from the favorites table, then navigates back to the list view.
@@ -120,6 +116,22 @@ export class FavoritesViewComponent implements OnInit {
         });
       }
     }
+  }
+
+  addOneToGroceryList() {
+    Swal.fire({
+      title: `Added ingredient!`,
+      text: 'Check your grocery list for more information.',
+      icon: 'success'
+    });
+  }
+
+  addedAllToGroceryList() {
+    Swal.fire({
+      title: 'Added all ingredients!',
+      text: 'Check your grocery list for more information.',
+      icon: 'success'
+    });
   }
 
   reDirect(){

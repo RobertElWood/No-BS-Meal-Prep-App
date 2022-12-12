@@ -48,6 +48,9 @@
     </thead>
     <tbody>
         <tr>
+            <!--[Idea] Use UL and LI to display each recipe name in the array, 
+                assign a delete button for each one-->
+
             <th>Breakfast</th>
             <td *ngFor="let b of breakfastItems; index as i">{{b}}<button *ngIf="b !== null" (click)="deleteCalItem(b, meals[0], daysOfWeek[i])">Delete</button></td>
         </tr>

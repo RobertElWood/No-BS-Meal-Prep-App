@@ -2,7 +2,7 @@ import { User } from "./User";
 
 export interface Calendar {
     id: number;
-    label: string; 
+    label: any; 
     day: string;
     meal: string;
     userInfo: number;

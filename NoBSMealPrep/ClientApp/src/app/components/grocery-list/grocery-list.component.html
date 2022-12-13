@@ -5,13 +5,25 @@
     <h3 style="text-align: center;">Grocery List Items</h3>
     <br>
 </div>
-<table *ngIf="loggedIn === true" id ="GroceryList" class='table table-striped' aria-labelledby="tableLabel" style="border: solid 2px white; margin:10px;">
+<table *ngIf="loggedIn === true" id ="GroceryList" class='table table-striped' aria-labelledby="tableLabel" style="border: solid 2px white;">
 
     <tr *ngFor="let g of favoriteGroceryItemsByUser; index as i" >
             <td *ngIf="isEdited[i] === false"><input type="checkbox"> {{g.quantity}} {{g.measure}} of {{g.food}}</td> 
             <td *ngIf="isEdited[i] === false">from {{recipeNames[i]}}</td>
-            <button (click)="openEditTray(i, g.food, g.measure, g.quantity)" *ngIf="isEdited[i] === false">Edit Ingredient</button>
-            <button (click)="deleteIngredient(g.id, i)" *ngIf="isEdited[i] === false">Delete Ingredient</button> 
+
+            <button (click)="openEditTray(i, g.food, g.measure, g.quantity)" *ngIf="isEdited[i] === false">
+                <img src="https://www.pngitem.com/pimgs/m/111-1116274_wrench-icon-png-blue-wrench-icon-png-transparent.png" 
+                width="20" 
+                height="20">
+            </button>
+
+            <!-- PICKUP HERE - Adding different images to grocery list.-->
+
+            <button (click)="deleteIngredient(g.id, i)" *ngIf="isEdited[i] === false">
+                <img src="https://www.pngkey.com/png/full/16-161807_free-icons-png-red-trash-can-icon.png" 
+                width="50" 
+                height="50">
+            </button> 
 
             <td *ngIf="isEdited[i] === true">Amount: <input class="input" type="text" [(ngModel)]="ingToUpdate.quantity"></td>
             <td *ngIf="isEdited[i] === true">Unit of Measurement: <input class="input" type="text" [(ngModel)]="ingToUpdate.measure"></td>

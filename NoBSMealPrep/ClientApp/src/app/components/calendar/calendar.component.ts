@@ -1,6 +1,5 @@
 import { SocialAuthService, SocialUser } from '@abacritt/angularx-social-login';
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
 import { CalendarDbService } from 'src/app/services/calendar-db.service';
 import { FavDbService } from 'src/app/services/fav-db.service';
 import { UserDbService } from 'src/app/services/user-db.service';
@@ -12,7 +11,7 @@ import Swal from 'sweetalert2';
 @Component({
   selector: 'app-calendar',
   templateUrl: './calendar.component.html',
-  styleUrls: ['./calendar.component.css']
+  styleUrls: ['./calendar.component.css'],
 })
 export class CalendarComponent implements OnInit {
 
@@ -52,7 +51,7 @@ export class CalendarComponent implements OnInit {
 
   loggedIn: boolean = false;
 
-  constructor(private fav : FavDbService, private calendarDb : CalendarDbService, private userDb : UserDbService, private authService : SocialAuthService, private router : Router) {}
+  constructor(private fav : FavDbService, private calendarDb : CalendarDbService, private userDb : UserDbService, private authService : SocialAuthService) {}
   
   ngOnInit(): void {
     this. sub = this.sub = this.authService.authState.subscribe((user) => {
@@ -222,6 +221,71 @@ export class CalendarComponent implements OnInit {
     } 
   }
 
+  updateCalArrayAtIndex(label: any, meal: string, day: string) {
+
+    let initialRecipeArray : string[] = [];
+
+    let newCalItem : Calendar = {} as Calendar;
+
+    let userData : Calendar[] = [];
+
+    let initialRecipeString : string;
+
+    if(meal === 'Breakfast') {
+      initialRecipeArray = this.breakfastItems[this.daysOfWeek.indexOf(day)];
+    } 
+    else if(meal === 'Lunch') {
+      initialRecipeArray = this.lunchItems[this.daysOfWeek.indexOf(day)];
+    } 
+    else if(meal === 'Dinner') {
+      initialRecipeArray = this.dinnerItems[this.daysOfWeek.indexOf(day)];
+    } 
+    else if(meal === 'Snacks') {
+      initialRecipeArray = this.snacksItems[this.daysOfWeek.indexOf(day)];
+    } 
+
+    if(initialRecipeArray.length > 1) {
+
+      this.calendarDb.getCalendarItems().subscribe((results: Calendar[]) => {
+        this.calendarData = results;
+
+        for(let i = 0; i < this.calendarData.length; i++) {
+          if(this.calendarData[i].userInfo === this.currentUser.id) {
+              userData.push(this.calendarData[i]);
+            }
+          }
+         
+          initialRecipeString = initialRecipeArray.join('%%');
+
+        for(let i = 0; i < userData.length; i++){
+          if(userData[i].label === initialRecipeString){
+            if(userData[i].meal === meal) {
+              if(userData[i].day === day){
+                newCalItem = userData[i];
+              }
+            }
+          }
+        }
+
+        //deletes the portion of the string matching the label from the array
+        initialRecipeArray.splice(initialRecipeArray.indexOf(label),1);
+        
+        //joins spliced initalRecipeArray back together by %%
+        let labelFormatted = initialRecipeArray.join('%%')
+
+        //sets newCalItem's label/string to the joined array
+        newCalItem.label = labelFormatted;
+
+        
+        this.calendarDb.updateCalendarItem(newCalItem.id, newCalItem).subscribe((result:any) => {})
+      });
+   }
+  else {
+    this.deleteCalItem(label, meal, day);
+  }
+
+  }
+
   deleteCalItem(label: any, meal: string, day: string){
 
     this.calendarDb.getCalendarItems().subscribe((results: Calendar[]) => {
@@ -241,7 +305,6 @@ export class CalendarComponent implements OnInit {
       {
         labelFormatted = label;
       }
-
 
       for(let i = 0; i < this.calendarData.length; i++) {
         if(this.calendarData[i].userInfo === this.currentUser.id) {
@@ -388,17 +451,62 @@ export class CalendarComponent implements OnInit {
           newCalItem.userInfo = this.currentUser.id;
 
           this.calendarDb.updateCalendarItem(submitId, newCalItem).subscribe(() => {
-            this.createCalendar(nameArray, this.submitDay, this.submitMeal);     
+            this.createCalendar(nameArray, this.submitDay, this.submitMeal);   
+
           });
         });
-
         Swal.fire('Adding!', 'Your new Recipe was added on to this meal', 'info' );
-
       } 
       else if (result.dismiss === Swal.DismissReason.cancel) {
         Swal.fire('Cancelled', 'No changes made', 'error'); //put code for yes here
       }
     });
+  }
+
+  deleteAllEntries() {
+    Swal.fire({
+      title: 'Are you sure?',
+      text: 'This will delete your entire calendar...',
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: 'red',
+      confirmButtonText: 'Yes, delete all entries',
+      cancelButtonText: 'No, take me back.',
+
+    }).then((result) => {
+      if(result.value) {
+        
+        this.calendarDb.getCalendarItems().subscribe((results: Calendar[]) => {
+          this.calendarData = results;
+      
+          let userData : Calendar[] = [];
+
+          for(let i = 0; i < this.calendarData.length; i++) {
+            if(this.calendarData[i].userInfo === this.currentUser.id) {
+                userData.push(this.calendarData[i]);
+            }}
+
+          for (let i = 0; i < userData.length; i++) {
+            this.calendarDb.deleteCalendarItem(userData[i].id).subscribe(() => {});
+          }
+
+          this.breakfastItems = [null, null, null, null, null, null, null];
+
+          this.lunchItems= [null, null, null, null, null, null, null];
+
+          this.dinnerItems= [null, null, null, null, null, null, null];
+
+          this.snacksItems = [null, null, null, null, null, null, null];
+
+          Swal.fire('All calendar entries deleted', "Hope you didn't press this by mistake", 'info');
+        });
+
+      }
+    })
+  }
+
+  beansAll() {
+    Swal.fire('All your bean are belong to us', 'Enjoy your beans', 'success');
   }
 
   checkIfArray(tdValue : any) {

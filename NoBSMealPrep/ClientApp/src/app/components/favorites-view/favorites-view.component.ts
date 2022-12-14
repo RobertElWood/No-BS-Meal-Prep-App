@@ -7,6 +7,7 @@ import { FavoriteRecipe } from 'src/interfaces/FavoriteRecipe';
 import { GroceryDbService } from 'src/app/services/grocery-db.service';
 import { GroceryList } from 'src/interfaces/GroceryList';
 import { SocialAuthService, SocialUser } from '@abacritt/angularx-social-login';
+import Swal from 'sweetalert2';
 
 
 @Component({
@@ -20,6 +21,8 @@ export class FavoritesViewComponent implements OnInit {
 
   favoritesList:FavoriteRecipe[] = [];
 
+  // favoritesListByUser: FavoriteRecipe[] = [];
+
   searchID: any;
 
   foundRecipe: SingleRecipe[] = [];
@@ -32,7 +35,17 @@ export class FavoritesViewComponent implements OnInit {
 
   loggedIn: boolean = false;
 
-  
+  ingredientName : any;
+
+  //ingredient list for all users
+  savedIngredientsArray : GroceryList[] = [];
+
+  savedIngredientsByUser : GroceryList[] = [];
+
+  isDuplicate : boolean = false;
+
+  duplicateId : number = 0;
+
   
   constructor(private fav: FavDbService,  private recipeAPI: RecipeService, private grocerylistAPI: GroceryDbService, private authService: SocialAuthService, private route: ActivatedRoute, private router: Router) { }
 
@@ -44,10 +57,10 @@ export class FavoritesViewComponent implements OnInit {
         this.fav.getFavoriteList().subscribe((results:FavoriteRecipe[]) => {
           this.favoritesList = results;
 
-          this.sub = this.authService.authState.subscribe((user) => {
-            this.user = user;
-            this.loggedIn = (user != null);
-        });
+            this.sub = this.authService.authState.subscribe((user) => {
+              this.user = user;
+              this.loggedIn = (user != null);
+            });   
       });
     });
   }
@@ -63,18 +76,15 @@ export class FavoritesViewComponent implements OnInit {
     this.router.navigate(['favorites-list']);
   }
 
-
-  //TO DO: 
-  //Consider adding error handling to prevent adding multiple ingredients to same shopping list
-  //OR make the add button disappear after clicked
-  //OR simply collate all identical items into one QTY in the Grocery list view.
-
-
   //On click, adds the ingredient the user has selected by filling in values of an empty ingredient object.
   addShoppingIngredient(ingString: string){
 
     //clears ingredients array
     this.foundIngredients = [];
+
+    this.grocerylistAPI.getSavedIngredients().subscribe((result:GroceryList[]) => {
+      this.savedIngredientsArray = result;
+    
 
     //Finds ingredients within the API's recipe data that match the recipe string displayed in HTML
     for(let i = 0; i < this.foundRecipe[0].recipe.ingredients.length; i++){
@@ -85,22 +95,55 @@ export class FavoritesViewComponent implements OnInit {
 
     //For each ingredient present in foundIngredients, adds the properties to ingToAdd
     //Then, then will find the appropriate foreign key id. Pushes ingredients to GroceryList table in SQL
-    for(let i = 0; i < this.foundIngredients.length; i++) {
+      for(let i = 0; i < this.foundIngredients.length; i++) {
 
-      this.ingToAdd.food = this.foundIngredients[i].food;
-      this.ingToAdd.quantity = this.foundIngredients[i].quantity;
-      this.ingToAdd.measure = this.foundIngredients[i].measure;
-  
+        this.ingToAdd.food = this.foundIngredients[i].food;
+        this.ingToAdd.quantity = this.foundIngredients[i].quantity;
+        this.ingToAdd.measure = this.foundIngredients[i].measure;
+        this.ingToAdd.foodCategory = this.foundIngredients[i].foodCategory;
 
-      for(let j = 0; j < this.favoritesList.length; j++){
-        if(this.favoritesList[j].label === this.foundRecipe[0].recipe.label){
-          this.ingToAdd.parentRecipe = this.favoritesList[j].id;
+        //make sure the label of the found recipe matches the name of the favorite list recipe being added
+        for(let j = 0; j < this.favoritesList.length; j++){
+          if(this.favoritesList[j].label === this.foundRecipe[0].recipe.label){
+            this.ingToAdd.parentRecipe = this.favoritesList[j].id;
+          }
+        }
+
+        //identifies in the entire table for all ingredients,
+        //if there are any ingredients that have the same name as ingToAdd
+        //
+        for(let i=0; i< this.savedIngredientsArray.length; i++) {
+          if((this.savedIngredientsArray[i].food === this.ingToAdd.food)
+            && (this.savedIngredientsArray[i].measure === this.ingToAdd.measure)
+            && (this.savedIngredientsArray[i].foodCategory === this.ingToAdd.foodCategory)
+            && (this.savedIngredientsArray[i].parentRecipe === this.ingToAdd.parentRecipe)) {
+
+            this.isDuplicate = true; //marks that this ingToAdd is already in the database
+
+            this.duplicateId = this.savedIngredientsArray[i].id; //saving the original ingredient in the database's ID (not ingToAdd's ID)
+          }
+        }
+          //if the user is trying to add a duplicate ingredient, 
+          //instead it will update the first ingredient entry by doubling the quantity amount
+        if(this.isDuplicate === true) { //if ingToAdd is a duplicate entry
+          this.ingToAdd.id = this.duplicateId;
+          this.ingToAdd.quantity = this.ingToAdd.quantity + this.ingToAdd.quantity; //doubles the quantity of ingredient. 
+          this.grocerylistAPI.updateOneIngredient(this.duplicateId, this.ingToAdd).subscribe((result: any) => {
+            console.log(result);
+          });
+
+//////////////////////////////////////////////////////////////////////////////
+//PICK UP HERE - problems with adding quantity of ingToAdd, clicking button more than twice does not update quantity.
+//////////////////////////////////////////////////////////////////////////////
+
+        }
+        else {
+          this.grocerylistAPI.postIngredient(this.ingToAdd).subscribe((result: any) => {
+            // this.ingredientName = result;
+          });
         }
       }
-
-      this.grocerylistAPI.postIngredient(this.ingToAdd).subscribe((result: any) => {
-      });
-    }
+    });
   }
 
   //Adds all ingredients currently in the recipe to the db
@@ -109,6 +152,7 @@ export class FavoritesViewComponent implements OnInit {
     for(let i = 0; i < this.foundRecipe[0].recipe.ingredientLines.length; i++) {
       this.addShoppingIngredient(this.foundRecipe[0].recipe.ingredientLines[i]);
     }
+    this.addedAllToGroceryList();
   }
 
   //Deletes the recipe in question from the favorites table, then navigates back to the list view.
@@ -120,6 +164,22 @@ export class FavoritesViewComponent implements OnInit {
         });
       }
     }
+  }
+
+  addOneToGroceryList() {
+    Swal.fire({
+      title: `Added ingredient!`,
+      text: 'Check your grocery list for more information.',
+      icon: 'success'
+    });
+  }
+
+  addedAllToGroceryList() {
+    Swal.fire({
+      title: 'Added all ingredients!',
+      text: 'Check your grocery list for more information.',
+      icon: 'success'
+    });
   }
 
   reDirect(){

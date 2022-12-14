@@ -24,7 +24,11 @@ namespace NoBSMealPrep.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<GroceryList>>> GetGroceryLists()
         {
-            return await _context.GroceryLists.ToListAsync();
+            List<GroceryList> GlUnsorted = await _context.GroceryLists.ToListAsync();
+
+            List<GroceryList> GlSorted = GlUnsorted.OrderBy(g => g.FoodCategory).ToList();
+
+            return GlSorted;
         }
 
         // GET: api/GroceryList/5

@@ -24,7 +24,11 @@ namespace NoBSMealPrep.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<GroceryList>>> GetGroceryLists()
         {
-            return await _context.GroceryLists.ToListAsync();
+            List<GroceryList> GlUnsorted = await _context.GroceryLists.ToListAsync();
+
+            List<GroceryList> GlSorted = GlUnsorted.OrderBy(g => g.FoodCategory).ToList();
+
+            return GlSorted;
         }
 
         // GET: api/GroceryList/5
@@ -77,10 +81,23 @@ namespace NoBSMealPrep.Controllers
         [HttpPost]
         public async Task<ActionResult<GroceryList>> PostGroceryList(GroceryList groceryList)
         {
-            _context.GroceryLists.Add(groceryList);
-            await _context.SaveChangesAsync();
 
-            return CreatedAtAction("GetGroceryList", new { id = groceryList.Id }, groceryList);
+            var existingEntry = await _context.GroceryLists.Where(g => g.Food == groceryList.Food &&
+            g.Quantity == groceryList.Quantity &&
+            g.Measure == groceryList.Measure &&
+            g.FoodCategory == groceryList.FoodCategory &&
+            g.ParentRecipe == groceryList.ParentRecipe).FirstOrDefaultAsync();
+
+            if (existingEntry != null){
+                existingEntry.Food = "This is a duplicate value";
+                return existingEntry;
+            }
+            else{
+                _context.GroceryLists.Add(groceryList);
+                await _context.SaveChangesAsync();
+
+                return CreatedAtAction("GetGroceryList", new { id = groceryList.Id }, groceryList);
+            }
         }
 
         // DELETE: api/GroceryList/5

@@ -110,6 +110,15 @@ export class GroceryListComponent implements OnInit {
             }
           }
 
+          //groups ingredients of similar foodCategories together
+          console.log('before sorting');
+          console.table(this.favoriteGroceryItemsByUser);
+
+        
+
+          // console.log('after sorting');
+          // console.table(this.favoriteGroceryItemsByUser);
+
           //Find the name of the recipe for each group of ingredients in the Grocery List.
           for(let i=0; i < this.favoriteGroceryItemsByUser.length; i++){
             if(favoriteRecipeIds.includes(this.favoriteGroceryItemsByUser[i].parentRecipe) === true){
@@ -131,13 +140,20 @@ export class GroceryListComponent implements OnInit {
     });
   }
 
-  openEditTray(index : number, food : string, measure : string, quantity : number){
+  openEditTray(index : number, food : string, measure : string, quantity : number, foodCategory : string){
 
   this.ingToUpdate.food = food;
   this.ingToUpdate.measure = measure;
   this.ingToUpdate.quantity = quantity;
+  this.ingToUpdate.foodCategory = foodCategory;
 
-  this.isEdited[index] = true;
+    //sets entire array of isEdited to false, preventing them from being edited
+    for(let i = 0; i < this.isEdited.length; i++) {
+      this.isEdited[i] = false;
+    }
+
+    //only the selected index will be true / editable
+    this.isEdited[index] = true;
   }
 
   closeEditTray(index : number){

@@ -21,6 +21,8 @@ export class FavoritesViewComponent implements OnInit {
 
   favoritesList:FavoriteRecipe[] = [];
 
+  // favoritesListByUser: FavoriteRecipe[] = [];
+
   searchID: any;
 
   foundRecipe: SingleRecipe[] = [];
@@ -120,6 +122,22 @@ export class FavoritesViewComponent implements OnInit {
         });
       }
     }
+  }
+
+  addOneToGroceryList() {
+    Swal.fire({
+      title: `Added ingredient!`,
+      text: 'Check your grocery list for more information.',
+      icon: 'success'
+    });
+  }
+
+  addedAllToGroceryList() {
+    Swal.fire({
+      title: 'Added all ingredients!',
+      text: 'Check your grocery list for more information.',
+      icon: 'success'
+    });
   }
 
   addOneToGroceryList() {

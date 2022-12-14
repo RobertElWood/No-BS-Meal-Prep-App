@@ -81,10 +81,23 @@ namespace NoBSMealPrep.Controllers
         [HttpPost]
         public async Task<ActionResult<GroceryList>> PostGroceryList(GroceryList groceryList)
         {
-            _context.GroceryLists.Add(groceryList);
-            await _context.SaveChangesAsync();
 
-            return CreatedAtAction("GetGroceryList", new { id = groceryList.Id }, groceryList);
+            var existingEntry = await _context.GroceryLists.Where(g => g.Food == groceryList.Food &&
+            /*g.Quantity == groceryList.Quantity &&*/
+            g.Measure == groceryList.Measure &&
+            g.FoodCategory == groceryList.FoodCategory &&
+            g.ParentRecipe == groceryList.ParentRecipe).FirstOrDefaultAsync();
+
+            if (existingEntry != null){
+                existingEntry.Food = "This is a duplicate value";
+                return existingEntry;
+            }
+            else{
+                _context.GroceryLists.Add(groceryList);
+                await _context.SaveChangesAsync();
+
+                return CreatedAtAction("GetGroceryList", new { id = groceryList.Id }, groceryList);
+            }
         }
 
         // DELETE: api/GroceryList/5

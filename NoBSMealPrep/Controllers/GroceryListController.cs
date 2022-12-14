@@ -83,7 +83,7 @@ namespace NoBSMealPrep.Controllers
         {
 
             var existingEntry = await _context.GroceryLists.Where(g => g.Food == groceryList.Food &&
-            g.Quantity == groceryList.Quantity &&
+            /*g.Quantity == groceryList.Quantity &&*/
             g.Measure == groceryList.Measure &&
             g.FoodCategory == groceryList.FoodCategory &&
             g.ParentRecipe == groceryList.ParentRecipe).FirstOrDefaultAsync();

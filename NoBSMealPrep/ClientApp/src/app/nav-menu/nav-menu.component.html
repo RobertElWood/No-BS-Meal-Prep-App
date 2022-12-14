@@ -1,43 +1,38 @@
 <header class="sticky-top">
-    <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb0">
-          <div id="navbar"
-            class="navbar-collapse collapse d-sm-inline-flex justify-content-end"
-            [ngClass]="{ show: isExpanded }"
-          >
+    <nav class="navbar-custom navbar-expand-sm navbar-toggleable-sm border-bottom box-shadow mb0">
+          <!-- <a class="navbar-brand"></a> -->
+      <div id="navbar"
+            class="navbar-collapse collapse d-sm-inline-flex justify-content-center"
+            [ngClass]="{ show: isExpanded }">
             <ul class="navbar-nav flex-grow">
-              <li
-                class="nav-item"
+              <li class="nav-item"
                 [routerLinkActive]="['link-active']"
-                [routerLinkActiveOptions]="{ exact: true }"
-              >
-                <a class="nav-link text-dark" [routerLink]="['/']">Home</a>
+                [routerLinkActiveOptions]="{ exact: true }">
+                <a class="nav-link text-dark" style="font-size: 20px" [routerLink]="['/']"><strong>Home</strong></a>
               </li>
               <li class="nav-item" [routerLinkActive]="['link-active']">
-                <a class="nav-link text-dark" [routerLink]="['/recipe-list']"
-                  >Search Recipes</a
-                >
+                <a class="nav-link text-dark" style="font-size: 20px" [routerLink]="['/recipe-list']"
+                  ><strong>Search Recipes</strong></a>
               </li>
               <li class="nav-item" [routerLinkActive]="['link-active']">
                 <div *ngIf="!loggedIn">
-                <a class="nav-link text-dark" [routerLink]="['/favorites-list']"
-                  >Planner</a
-                >
+                <a class="nav-link text-dark" style="font-size: 20px" [routerLink]="['/favorites-list']"
+                  ><strong>Planner</strong></a>
               </div>
               <div *ngIf="loggedIn">
-                <a class="nav-link text-dark" [routerLink]="['/favorites-list']"
-                  >{{user.name}}'s Planner</a
-                >
+                <a class="nav-link text-dark" style="font-size: 20px" [routerLink]="['/favorites-list']"
+                  ><strong>{{user.name}}'s Planner</strong></a>
               </div>
               </li>
               <li class="nav-item" [routerLinkActive]="['link-active']">
-                <a class="nav-link text-dark" [routerLink]="['/grocery-list']"
-                  >Grocery List</a
-                >
+                <a class="nav-link text-dark" style="font-size: 20px" [routerLink]="['/grocery-list']"
+                  ><strong>Grocery List</strong></a>
               </li>
               <li class="nav-item">
-                <asl-google-signin-button *ngIf="!loggedIn" type='icon' size='medium'></asl-google-signin-button>
+                <asl-google-signin-button *ngIf="!loggedIn" type='icon' class="align-text-bottom" size='large'></asl-google-signin-button>
                 <button class="btn btn-outline-dark" *ngIf="loggedIn"  (click)="signOut()">Sign Out
                 </button>
+                <!--https://getbootstrap.com/docs/4.0/utilities/vertical-align/-->
                 </li>            
             </ul>
           </div>

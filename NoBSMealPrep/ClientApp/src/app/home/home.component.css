@@ -1,0 +1,19 @@
+.bg-image {
+    background-image: url('src\app\img\editedphoto.jpeg');
+    height: 50vh; 
+    width: 100vw;
+    background-size: 100% 100%;
+    position: relative;
+    text-align: center;
+}
+
+.heading {
+    position: absolute;
+    top: 60%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+body {
+ background-color: #F0F4EF;     
+}

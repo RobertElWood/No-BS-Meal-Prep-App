@@ -1,6 +1,13 @@
+body {
+    background-color: #F0F4EF;
+    min-height: 100vh;
+    width: 100vw;
+}
 table {
     margin-bottom: 0px;
     border-bottom: 0px;
+    /* margin-left: 50px; */
+    /* margin-right: 50px; */
 }
 .gfg {
     border-collapse:separate;

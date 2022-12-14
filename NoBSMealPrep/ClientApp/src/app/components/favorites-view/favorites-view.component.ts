@@ -36,16 +36,6 @@ export class FavoritesViewComponent implements OnInit {
   loggedIn: boolean = false;
 
   ingredientName : any;
-
-  //ingredient list for all users
-  savedIngredientsArray : GroceryList[] = [];
-
-  savedIngredientsByUser : GroceryList[] = [];
-
-  isDuplicate : boolean = false;
-
-  duplicateId : number = 0;
-
   
   constructor(private fav: FavDbService,  private recipeAPI: RecipeService, private grocerylistAPI: GroceryDbService, private authService: SocialAuthService, private route: ActivatedRoute, private router: Router) { }
 
@@ -81,9 +71,6 @@ export class FavoritesViewComponent implements OnInit {
 
     //clears ingredients array
     this.foundIngredients = [];
-
-    this.grocerylistAPI.getSavedIngredients().subscribe((result:GroceryList[]) => {
-      this.savedIngredientsArray = result;
     
 
     //Finds ingredients within the API's recipe data that match the recipe string displayed in HTML
@@ -108,42 +95,13 @@ export class FavoritesViewComponent implements OnInit {
             this.ingToAdd.parentRecipe = this.favoritesList[j].id;
           }
         }
-
-        //identifies in the entire table for all ingredients,
-        //if there are any ingredients that have the same name as ingToAdd
-        //
-        for(let i=0; i< this.savedIngredientsArray.length; i++) {
-          if((this.savedIngredientsArray[i].food === this.ingToAdd.food)
-            && (this.savedIngredientsArray[i].measure === this.ingToAdd.measure)
-            && (this.savedIngredientsArray[i].foodCategory === this.ingToAdd.foodCategory)
-            && (this.savedIngredientsArray[i].parentRecipe === this.ingToAdd.parentRecipe)) {
-
-            this.isDuplicate = true; //marks that this ingToAdd is already in the database
-
-            this.duplicateId = this.savedIngredientsArray[i].id; //saving the original ingredient in the database's ID (not ingToAdd's ID)
-          }
-        }
           //if the user is trying to add a duplicate ingredient, 
           //instead it will update the first ingredient entry by doubling the quantity amount
-        if(this.isDuplicate === true) { //if ingToAdd is a duplicate entry
-          this.ingToAdd.id = this.duplicateId;
-          this.ingToAdd.quantity = this.ingToAdd.quantity + this.ingToAdd.quantity; //doubles the quantity of ingredient. 
-          this.grocerylistAPI.updateOneIngredient(this.duplicateId, this.ingToAdd).subscribe((result: any) => {
-            console.log(result);
-          });
-
-//////////////////////////////////////////////////////////////////////////////
-//PICK UP HERE - problems with adding quantity of ingToAdd, clicking button more than twice does not update quantity.
-//////////////////////////////////////////////////////////////////////////////
-
-        }
-        else {
           this.grocerylistAPI.postIngredient(this.ingToAdd).subscribe((result: any) => {
             // this.ingredientName = result;
+            console.log(result);
           });
-        }
       }
-    });
   }
 
   //Adds all ingredients currently in the recipe to the db
@@ -164,6 +122,22 @@ export class FavoritesViewComponent implements OnInit {
         });
       }
     }
+  }
+
+  addOneToGroceryList() {
+    Swal.fire({
+      title: `Added ingredient!`,
+      text: 'Check your grocery list for more information.',
+      icon: 'success'
+    });
+  }
+
+  addedAllToGroceryList() {
+    Swal.fire({
+      title: 'Added all ingredients!',
+      text: 'Check your grocery list for more information.',
+      icon: 'success'
+    });
   }
 
   addOneToGroceryList() {

@@ -15,5 +15,7 @@ public partial class GroceryList
 
     public int? ParentRecipe { get; set; }
 
+    public string? FoodCategory { get; set; }
+
     public virtual FavoriteRecipe? ParentRecipeNavigation { get; set; }
 }

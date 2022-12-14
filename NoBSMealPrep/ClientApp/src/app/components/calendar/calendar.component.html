@@ -48,24 +48,125 @@
     </thead>
     <tbody>
         <tr>
-            <th>Breakfast</th>
-            <td *ngFor="let b of breakfastItems; index as i">{{b}}<button *ngIf="b !== null" (click)="deleteCalItem(b, meals[0], daysOfWeek[i])">Delete</button></td>
+            <th>Breakfast</th>    
+                <td *ngFor="let b of breakfastItems; index as i">  
+                    <div *ngIf="checkIfArray(b) === false">{{b}}  <!--If the object is a single string, not an array-->
+                        <button *ngIf="b !== null" 
+                            (click)="deleteCalItem(b, meals[0], daysOfWeek[i])">
+                            <img src="https://www.pngkey.com/png/full/16-161807_free-icons-png-red-trash-can-icon.png" 
+                            width="16" 
+                            height="16">
+                        </button>
+                        <br> <br>
+                    </div> 
+
+                    <div *ngIf="checkIfArray(b) === true">  <!--If the object is an array, not a string-->
+                        <div *ngFor="let a of breakfastItems[i]; index as j" >{{a}} 
+                            <button *ngIf="b !== null" 
+                                (click)="updateCalArrayAtIndex(breakfastItems[i][j], meals[0], daysOfWeek[i])">
+                                <img src="https://www.pngkey.com/png/full/16-161807_free-icons-png-red-trash-can-icon.png" 
+                                width="16" 
+                                height="16">
+                            </button>
+                            <br> <br>
+                        </div> 
+                    </div>
+                </td>
         </tr>
+
         <tr>
             <th>Lunch</th>
-            <td *ngFor="let l of lunchItems; index as i">{{l}}<button *ngIf="l !== null" (click)="deleteCalItem(l, meals[1], daysOfWeek[i])">Delete</button></td>
+                <td *ngFor="let l of lunchItems; index as i">  
+                    <div *ngIf="checkIfArray(l) === false">{{l}} 
+                        <button *ngIf="l !== null" 
+                            (click)="deleteCalItem(l, meals[1], daysOfWeek[i])">
+                            <img src="https://www.pngkey.com/png/full/16-161807_free-icons-png-red-trash-can-icon.png" 
+                                width="16" 
+                                height="16">
+                        </button>
+                        <br> <br>
+                    </div> 
+
+                    <div *ngIf="checkIfArray(l) === true"> 
+                        <div *ngFor="let a of lunchItems[i]; index as j" >{{a}} 
+                            <button *ngIf="l !== null" 
+                                (click)="updateCalArrayAtIndex(lunchItems[i][j], meals[1], daysOfWeek[i])">
+                                <img src="https://www.pngkey.com/png/full/16-161807_free-icons-png-red-trash-can-icon.png" 
+                                width="16" 
+                                height="16">
+                            </button>
+                            <br> <br>
+                        </div> 
+                    </div>
+                </td>
         </tr>
+
         <tr>
             <th>Dinner</th>
-            <td *ngFor="let d of dinnerItems; index as i">{{d}}<button *ngIf="d !== null" (click)="deleteCalItem(d, meals[2], daysOfWeek[i])">Delete</button></td>
+             <td *ngFor="let d of dinnerItems; index as i">  
+                    <div *ngIf="checkIfArray(d) === false">{{d}} 
+                        <button *ngIf="d !== null" 
+                            (click)="deleteCalItem(d, meals[2], daysOfWeek[i])">
+                            <img src="https://www.pngkey.com/png/full/16-161807_free-icons-png-red-trash-can-icon.png" 
+                                width="16" 
+                                height="16">
+                        </button>
+                        <br> <br>
+                    </div> 
+
+                    <div *ngIf="checkIfArray(d) === true"> 
+                        <div *ngFor="let a of dinnerItems[i]; index as j" >{{a}} 
+                            <button *ngIf="d !== null" 
+                                (click)="updateCalArrayAtIndex(dinnerItems[i][j], meals[2], daysOfWeek[i])">
+                                <img src="https://www.pngkey.com/png/full/16-161807_free-icons-png-red-trash-can-icon.png" 
+                                width="16" 
+                                height="16">
+                            </button>
+                            <br> <br>
+                        </div> 
+                    </div>
+                </td>
         </tr>
+
         <tr>
             <th>Snacks</th>
-            <td *ngFor="let s of snacksItems; index as i">{{s}}<button *ngIf="s !== null" (click)="deleteCalItem(s, meals[3], daysOfWeek[i])">Delete</button></td>
+                <td *ngFor="let s of snacksItems; index as i">  
+                    <div *ngIf="checkIfArray(s) === false">{{s}} 
+                        <button *ngIf="s !== null" 
+                            (click)="deleteCalItem(s, meals[3], daysOfWeek[i])">
+                            <img src="https://www.pngkey.com/png/full/16-161807_free-icons-png-red-trash-can-icon.png" 
+                                width="16" 
+                                height="16">
+                        </button>
+                        <br> <br>
+                    </div> 
+
+                    <div *ngIf="checkIfArray(s) === true"> 
+                        <div *ngFor="let a of snacksItems[i]; index as j" >{{a}} 
+                            <button *ngIf="s !== null" 
+                                (click)="updateCalArrayAtIndex(snacksItems[i][j], meals[3], daysOfWeek[i])">
+                                <img src="https://www.pngkey.com/png/full/16-161807_free-icons-png-red-trash-can-icon.png" 
+                                width="16" 
+                                height="16">
+                            </button>
+                            <br> <br>
+                        </div> 
+                    </div>
+                </td>
         </tr>
     </tbody>
 </table>
 
+<br>
+<div>
+    <button (click)="deleteAllEntries()">
+        Delete All Entries <img src="https://www.pngkey.com/png/full/16-161807_free-icons-png-red-trash-can-icon.png" 
+        width="16" 
+        height="16">
+    </button>
+</div>
+
+<br>
 
 <div *ngIf="customTrigger === true">
     <br>
@@ -129,8 +230,12 @@
      <button (click)="switchCustomTray()">Create Custom Recipe</button>
 </div>
 
-<br>
+<br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
 
-<button (click)="askToUpdate()">Show me Confirmation</button>
+<div>
+    <button (click)="beansAll()">
+    B - E - A - N - S
+    </button>
+</div>
 
 </html>

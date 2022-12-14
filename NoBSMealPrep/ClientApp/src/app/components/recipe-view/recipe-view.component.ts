@@ -105,14 +105,13 @@ export class RecipeViewComponent implements OnInit {
         this.savedRecipe.calories = this.foundRecipe[0].recipe.calories;
         this.savedRecipe.favoritedby = this.userPosted.id;
 
-        console.log("IF: the id of the person posted is: " + this.userPosted.id);
-
-        this.favRecipeAPI.postFavoriteRecipe(this.savedRecipe).subscribe((resultrecipe: FavoriteRecipe) => {console.log(resultrecipe)});
+        this.favRecipeAPI.postFavoriteRecipe(this.savedRecipe).subscribe((result:any) => {
+          this.recipeSavedAlert(result);
+        });
         // alert("Your recipe has been successfully saved!");
-        this.recipeSavedAlert();
+
       });
-      
-    } 
+    }
     else { //If the user IS in our database, will get the user in question and will add their info to the foreign key value of savedRecipe.
       this.userDb.getOneUser(this.user.id).subscribe((result: User) => {
         this.userPosted = result;
@@ -122,20 +121,27 @@ export class RecipeViewComponent implements OnInit {
         this.savedRecipe.calories = this.foundRecipe[0].recipe.calories;
         this.savedRecipe.favoritedby = this.userPosted.id;
 
-        console.log("ELSE: the id of the person posted is:" + this.userPosted.id);
-
-        this.favRecipeAPI.postFavoriteRecipe(this.savedRecipe).subscribe((resultrecipe: FavoriteRecipe) => {console.log(resultrecipe)});
-        // alert("Your recipe has been successfully saved!");
-        this.recipeSavedAlert();
+        this.favRecipeAPI.postFavoriteRecipe(this.savedRecipe).subscribe((result:any) => {
+          this.recipeSavedAlert(result);
+        });
       });
     }
   }
   
-  recipeSavedAlert() {
-    Swal.fire({
-      title: 'Recipe Saved!',
-      text: 'Check your Planner to see your saved list.',
-    });
+  recipeSavedAlert(result : any) {
+    
+    if (result.label === "This recipe is in your favorites already") {
+      Swal.fire({
+        title: 'Notification',
+        text: result.label,
+      });
+    }
+    else{
+      Swal.fire({
+        title: 'Recipe Saved!',
+        text: 'Check your Planner to see your saved list.',
+      });
+    }
   }
 
   noUserSaveRecipeAttempt() {

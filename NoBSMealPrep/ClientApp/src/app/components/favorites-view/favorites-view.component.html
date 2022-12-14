@@ -21,7 +21,7 @@
         <p>Servings: {{foundRecipe[0].recipe.yield}}</p>
     <br>
         <div *ngFor="let ing of foundRecipe[0].recipe.ingredientLines; index as i">
-            <p><button (click)="addShoppingIngredient(ing)">Add to Grocery List</button>Ingredient {{i+1}}: {{ing}}</p>
+            <p><button (click)="addShoppingIngredient(ing)" (click)="addOneToGroceryList()">Add to Grocery List</button>Ingredient {{i+1}}: {{ing}}</p>
         </div>
     <br>
         <button (click)="addAllIngredients()">Add All to Grocery List</button>

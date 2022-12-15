@@ -1,0 +1,33 @@
+body {
+    background-color: #F0F4EF;
+    min-height: 100vh;     
+   }
+.table {
+    border-collapse: collapse;
+}
+.thead {
+    /* background-color:#344966; */
+    Color:black;
+    border:1px solid black;
+}
+th{
+    text-align:center;
+    width: 250px;
+    padding:10px;
+}
+.td {
+    text-align:center;
+    width: auto;
+    padding:10px;
+}
+
+.geeks {
+    border-right:hidden;
+}
+.gfg {
+    border-collapse:separate;
+    border-spacing:0 15px;
+}
+.body, h1 {
+    color:lightgreen;
+}

@@ -1,3 +1,5 @@
+<html>
+    <body>
 <div *ngIf="user === null || loggedIn === false" style="text-align: center;">
     <br><p><strong>Please log in to view your planner!</strong></p>
 </div>
@@ -8,7 +10,7 @@
 </div>
 
 <div *ngIf="loggedIn === true" style="text-align: left;">
-    <table id ="GroceryList" class='table table-striped' >     
+    <table id ="GroceryList" class='table table-striped'>     
         <thead>
             <td><strong>Food Name</strong></td>
             <td><strong>Food Category</strong></td>
@@ -61,3 +63,6 @@
 <div style="text-align: center;">
     <button *ngIf="loggedIn === true" (click)="deleteAllIngredients()">Delete All Ingredients</button>
 </div>
+
+</body>
+</html>

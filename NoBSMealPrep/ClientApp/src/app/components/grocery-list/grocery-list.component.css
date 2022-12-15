@@ -1,15 +1,39 @@
+thead{
+    font-weight: bold;
+}
+
 body {
     background-color: #F0F4EF;
     min-height: 100vh;
     width: 100vw;
+    overflow: hidden;
 }
 table {
-    margin-bottom: 0px;
-    border-bottom: 0px;
-    /* margin-left: 50px; */
-    /* margin-right: 50px; */
+    width: 70vw;
+    margin-top: 50px;
+    margin-left: auto;
+    margin-right: auto;
 }
+
+#td1 {
+font-weight: bold;
+}
+
 .gfg {
     border-collapse:separate;
     border-spacing:0 15px;
+}
+
+h3{
+    background-color: #bfcc94;
+}
+
+.backsplash{
+    background-color: #bfcc94;
+    font-weight: bold;
+}
+
+
+.btn-danger {
+    background-color: #8e0303;
 }

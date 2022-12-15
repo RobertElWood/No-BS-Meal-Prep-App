@@ -7,6 +7,7 @@ import { UserDbService } from 'src/app/services/user-db.service';
 import { FavoriteRecipe } from 'src/interfaces/FavoriteRecipe';
 import { GroceryList } from 'src/interfaces/GroceryList';
 import { User } from 'src/interfaces/User';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-grocery-list',
@@ -183,13 +184,26 @@ export class GroceryListComponent implements OnInit {
   //Deletes all ingredients in the user's current shopping list.
   //Uses the same logic as above, but applied iteratively across all items in array.
   deleteAllIngredients() {
-    for(let i=0; i < this.favoriteGroceryItemsByUser.length; i++) {
-      this.groceryDb.deleteIngredient(this.favoriteGroceryItemsByUser[i].id).subscribe(() => {
-      });
-    }
-    this.favoriteGroceryItems.splice(0, this.favoriteGroceryItems.length);
-    this.favoriteGroceryItemsByUser.splice(0, this.favoriteGroceryItemsByUser.length);
-    this.recipeNames.splice(0, this.recipeNames.length);
+    Swal.fire({
+      title: 'Are you sure?',
+      text: 'This will delete your entire grocery list...',
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: 'red',
+      confirmButtonText: 'Yes, delete list',
+      cancelButtonText: 'No, take me back',
+    }).then((result) => {
+      if(result.value) {
+        for(let i=0; i < this.favoriteGroceryItemsByUser.length; i++) {
+          this.groceryDb.deleteIngredient(this.favoriteGroceryItemsByUser[i].id).subscribe(() => {
+          });
+        }
+​
+        this.favoriteGroceryItems.splice(0, this.favoriteGroceryItems.length);
+        this.favoriteGroceryItemsByUser.splice(0, this.favoriteGroceryItemsByUser.length);
+        this.recipeNames.splice(0, this.recipeNames.length); 
+      }
+    })
   }
 
   ngOnDestroy() {

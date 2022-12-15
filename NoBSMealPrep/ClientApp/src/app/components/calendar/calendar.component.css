@@ -1,0 +1,54 @@
+.backsplash{
+    background-color: #bfcc94;
+    font-weight: bold;
+    text-align: center;
+}
+
+.subheading{
+    font-weight: bold;
+    text-align: center;
+}
+
+table {
+    border-collapse: collapse;
+}
+th {
+    background-color:#344966;
+    Color:white;
+}
+th, td {
+    width: 100px;;
+    text-align:center;
+    border:1px solid black;
+    padding:10px
+}
+.geeks {
+    border-right:hidden;
+}
+.gfg {
+    border-collapse:separate;
+    border-spacing:0 15px;
+}
+
+td:hover {
+    background-color: #bfcc94;
+}
+
+.btn-danger {
+    background-color: #8e0303;
+    color: white;
+}
+
+label{
+    font-weight: bold;
+}
+
+.table {
+    width: 70vw;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.user-inputs{
+    right: 30vw;
+}

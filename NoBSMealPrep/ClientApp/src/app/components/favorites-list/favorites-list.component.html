@@ -1,34 +1,39 @@
 <!DOCTYPE html>
 <html>
     <body>
+        <div *ngIf="loggedIn === true"  class="backsplash">
+        <h2 class="heading">{{user.name}}'s Planner</h2>
+        <br>
+        </div>
+    <table class='table table-striped' aria-labelledby="tableLabel" style="text-align: center;">
+        <tbody>
+            <th>
+    <div *ngIf="user === null || loggedIn === false">
+        <p>Please log in to view your planner!</p>
+    </div>
 
-    <h1 *ngIf="loggedIn === true">Favorite Recipes</h1>
-    
-<table class='table table-striped' aria-labelledby="tableLabel" style="text-align: center;">
-    <tbody>
-        <th>
-<div *ngIf="user === null || loggedIn === false">
-    <p>Please log in to view your planner!</p>
-</div>
+    <h2 *ngIf="loggedIn === true" class="subheading">Favorite Recipes</h2>
 
-<thead *ngFor="let f of favoritesbyUserList; index as i ">
-<p>{{i+1}}) Recipe Name:<br>{{f.label}}</p>
-<p>Calorie Count: {{f.calories | number}} kcal</p>
-    <br>
+    <thead *ngFor="let f of favoritesbyUserList; index as i ">
+    <h6>Recipe Name:</h6>
+    <p>{{f.label}}</p>
+    <h6>Calorie Count:</h6>
+    <p>{{f.calories | number}} kcal</p>
+        <br>
 
-<button (click)="displayFavoriteInfo(f.uri)" >View Favorite Recipe Details</button>
-    <br>
-    <br>
-<button (click)="deleteOneFavRecipe(f.id, i)">Delete from Favorites</button>
-    <br>
-    <br>
-</thead>
+    <button (click)="displayFavoriteInfo(f.uri)" class="btn btn-light btn-sm btn-outline-dark">View Favorite Recipe Details</button>
+        <br>
+        <br>
+    <button (click)="deleteOneFavRecipe(f.id, i)" class="btn btn-danger btn-sm btn-outline-dark">Delete from Favorites</button>
+        <br>
+        <br>
+    </thead>
 
-<!-- to do, create accordion/button to display recipe 
-    details (see favorite-view and recipe-view?). -->
+    <!-- to do, create accordion/button to display recipe 
+        details (see favorite-view and recipe-view?). -->
 
-</th>
-<td *ngIf="loggedIn === true">
+    </th>
+<td *ngIf="loggedIn === true" class="calendar">
     <app-calendar></app-calendar>
 </td>
 </tbody>

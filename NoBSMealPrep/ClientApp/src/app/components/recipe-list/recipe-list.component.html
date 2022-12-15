@@ -1,76 +1,86 @@
 <html>
-<body>
-<div style="text-align: center;">
-    <p>Search Recipes by Keywords:</p>
-<input type="text" [(ngModel)]="keywords">
-<button (click)="searchRecipes()">Submit</button>
-<br>
-<br>
-<br>
-<label for="health">Filter by Dietary Restrictions:</label>
-<br>
-<select [(ngModel)]="health">
-    <option value="test">None</option>
-    <option value="vegan">Vegan</option>
-    <option value="vegetarian">Vegetarian</option>
-    <option value="alcohol-free">Alchohol Free</option>
-    <option value="dairy-free">Dairy Free</option>
-    <option value="egg-free">Egg Free</option>
-    <option value="gluten-free">Gluten Free</option>
-    <option value="kosher">Kosher</option>
-    <option value="paleo">Paleo</option>
-    <option value="tree-nut-free">Tree Nut Free</option>
-    <option value="pescatarian">Pescatarian</option>
-    <option value="shellfish-free">Shellfish Free</option>
-    <option value="soy-free">Soy Free</option>
-    <option value="wheat-free">Wheat Free</option>
-    <option value="pork-free">Pork Free</option>
-</select>
-<br>
+    <body>
+        <div style="text-align: center;" class="input-container">
 
-<br>
-<label for="cuisineType">Filter by Cuisine:</label>
-<br>
-<select [(ngModel)]="type">
-    <option value="test">None</option>
-    <option value="American">American</option>
-    <option value="Asian">Asian</option>
-    <option value="British">British</option>
-    <option value="Caribbean">Caribbean</option>
-    <option value="Central%20Europe">Central European</option>
-    <option value="Chinese">Chinese</option>
-    <option value="Eastern%20Europe">Eastern European</option>
-    <option value="French">French</option>
-    <option value="Italian">Italian</option>
-    <option value="Indian">Indian</option>
-    <option value="Japanese">Japanese</option>
-    <option value="Mediterranean">Mediterranean</option>
-    <option value="Mexican">Mexican</option>
-    <option value="Middle%20Eastern">Middle Eastern</option>
-    <option value="Nordic">Nordic</option>
-    <option value="South%20American">South American</option>
-    <option value="South%20East%20Asian">South East Asian</option>
-</select>
-<br>
-<br>
-<br>
-</div>
+            <div class="backsplash"> 
+                <br>
+                <h2 style="text-align: center;">Recipe Search:</h2>
+                <br>
+            </div>
+
+            <div class="input-boxes">
+                <label>Search Recipes by Keywords:</label>
+                <input type="text" class="input-group" [(ngModel)]="keywords">
+                
+                <label for="health">Filter by Dietary Restrictions:</label>
+
+                <select class="form-select form-select-sm mb-3" [(ngModel)]="health">
+                    <option value="test">None</option>
+                    <option value="vegan">Vegan</option>
+                    <option value="vegetarian">Vegetarian</option>
+                    <option value="alcohol-free">Alchohol Free</option>
+                    <option value="dairy-free">Dairy Free</option>
+                    <option value="egg-free">Egg Free</option>
+                    <option value="gluten-free">Gluten Free</option>
+                    <option value="kosher">Kosher</option>
+                    <option value="paleo">Paleo</option>
+                    <option value="tree-nut-free">Tree Nut Free</option>
+                    <option value="pescatarian">Pescatarian</option>
+                    <option value="shellfish-free">Shellfish Free</option>
+                    <option value="soy-free">Soy Free</option>
+                    <option value="wheat-free">Wheat Free</option>
+                    <option value="pork-free">Pork Free</option>
+                </select>
+            
+                <label for="cuisineType">Filter by Cuisine:</label>
+            
+                <select class="form-select form-select-sm mb-3"  [(ngModel)]="type">
+                    <option value="test">None</option>
+                    <option value="American">American</option>
+                    <option value="Asian">Asian</option>
+                    <option value="British">British</option>
+                    <option value="Caribbean">Caribbean</option>
+                    <option value="Central%20Europe">Central European</option>
+                    <option value="Chinese">Chinese</option>
+                    <option value="Eastern%20Europe">Eastern European</option>
+                    <option value="French">French</option>
+                    <option value="Italian">Italian</option>
+                    <option value="Indian">Indian</option>
+                    <option value="Japanese">Japanese</option>
+                    <option value="Mediterranean">Mediterranean</option>
+                    <option value="Mexican">Mexican</option>
+                    <option value="Middle%20Eastern">Middle Eastern</option>
+                    <option value="Nordic">Nordic</option>
+                    <option value="South%20American">South American</option>
+                    <option value="South%20East%20Asian">South East Asian</option>
+                </select>
+                
+                <button (click)="searchRecipes()" class="btn btn-light btn-outline-dark">Submit</button>
+                <br>
+                <br>
+            </div>
+        </div>
 
 
-<div *ngIf="recipes[0] !== undefined" style="text-align: center;">
-    <div *ngFor="let r of recipes[0].hits">
-        <p>Recipe Name: {{r.recipe.label}}</p>
-        <br>
-        <img src="{{r.recipe.image}}">
-        <!-- <button [routerLink]="['/recipe-view', ]">View Recipe Details</button> -->
-        <br>
-        <br>
-        <button (click)="getId(r.recipe.uri)">View Recipe Details</button>
-    
-        <br>
-        <br>
-    </div>
-</div>
+        <div *ngIf="recipes[0] !== undefined" style="text-align: center;" >
+            <h3>Search Results:</h3>
+            <br>
+            <div *ngFor="let r of recipes[0].hits" >
+                <div class="search-results">
+                    <br>
+                    <p><strong>Recipe Name:</strong></p>
+                    <p>{{r.recipe.label}}</p>
+                    <br>
+                    <img src="{{r.recipe.image}}">
+                    <br>
+                    <br>
+                    <button (click)="getId(r.recipe.uri)" class="btn btn-light btn-outline-dark">View Recipe Details</button>      
+                    <br>
+                    <br>
+                </div>
+                <br>
+            </div>
+        </div>
 
-</body>
+    </body>
 </html>

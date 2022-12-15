@@ -506,6 +506,15 @@ export class CalendarComponent implements OnInit {
   }
 
   beansAll() {
+
+    this.breakfastItems = ['beans', 'beans', 'beans', 'beans', 'beans', 'beans', 'beans'];
+​
+   this.lunchItems= ['beans', 'beans', 'beans', 'beans', 'beans', 'beans', 'beans'];
+​
+    this.dinnerItems= ['beans', 'beans', 'beans', 'BEANS', 'beans', 'beans', 'beans'];
+​
+    this.snacksItems = ['beans', 'beans', 'beans', 'beans', 'beans', 'beans', 'beans'];
+    
     Swal.fire('All your bean are belong to us', 'Enjoy your beans', 'success');
   }
 

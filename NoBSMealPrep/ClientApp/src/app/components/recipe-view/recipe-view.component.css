@@ -1,0 +1,50 @@
+body {
+    background-color: #F0F4EF;
+    width: 75vw;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+h2{
+    padding-top: 30px;
+}
+
+h3{
+    text-align: center;
+    font-weight: bold;
+}
+
+h5{
+    text-align: center;
+    font-weight: bold;
+    margin-bottom: 7px;
+}
+
+p{
+    text-align: center;
+}
+
+.recipe-title{
+    margin-left: auto;
+    margin-right: auto;
+    background-color: #bfcc94;
+    font-weight: bold;
+    text-align: center;
+}
+
+.col1 {
+    margin-left: auto;
+    margin-right: auto;
+    padding: 30px;
+    text-align: center;
+}
+
+.column {
+    float: left;
+    width: 33.33%;
+}
+
+.buttons {
+   text-align: center;
+}
+

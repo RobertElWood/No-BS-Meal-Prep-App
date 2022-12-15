@@ -2,3 +2,45 @@ body {
     background-color: #F0F4EF;
     min-height: 100vh;     
    }
+
+.form-select{
+    margin:auto;
+    width: 33vw;
+}
+
+.input-group{
+    margin: auto;
+    width: 33vw;
+    margin-bottom: 7px;
+}
+
+label{
+    font-size: 18px;
+    font-weight: bold;
+    margin-bottom: 7.5px;
+}
+
+.search-results{
+    border: 2px solid #bfcc94;
+    width: 33vw;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.input-boxes{
+    padding-top: 50px;
+    
+}
+
+.backsplash{
+    background-color: #bfcc94;
+    font-weight: bold;
+}
+
+.input-container {
+    margin-bottom: 3%;
+}
+
+p{
+    font-size: 18px;
+}

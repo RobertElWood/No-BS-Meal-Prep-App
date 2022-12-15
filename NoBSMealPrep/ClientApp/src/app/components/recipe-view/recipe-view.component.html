@@ -1,36 +1,61 @@
-<h2>Recipe Details:</h2>
-<div *ngIf="foundRecipe[0] !== undefined">
-        <h3>{{foundRecipe[0].recipe.label}}</h3>
-    <br>
-        <img src="{{foundRecipe[0].recipe.image}}">    
-    <br>
-    <br>
-        <p>Cuisine Type:</p>
-        <div *ngFor="let c of foundRecipe[0].recipe.cuisineType">
-            <p>{{c}}</p>
-        </div>
-    <br>
-        <p>Calories: {{foundRecipe[0].recipe.calories | number}}</p>
-    <br>
-        <p>Health Information:</p>
-        <div *ngFor="let h of foundRecipe[0].recipe.healthLabels">
-            <p>{{h}}</p>
-        </div>
-    <br>
-        <p>Servings: {{foundRecipe[0].recipe.yield}}</p>
-    <br>
-        <div *ngFor="let ing of foundRecipe[0].recipe.ingredientLines; index as i">
-            <p>Ingredient {{i+1}}: {{ing}}</p>
-        </div>
-    <br>
-        <p>Instructions:</p>
-        <a href="{{foundRecipe[0].recipe.url}}">{{foundRecipe[0].recipe.url}}</a>
-    <br>
-    <br>
-        <button (click)="onBack()">Back to Recipe Search</button>
-    <br>
-    <br>
-        <button (click)="checkUser()">Add to Favorites</button>
-    <br>
-    <br>
-</div>
+<html>
+    <div class="recipe-title">
+        <h2>{{foundRecipe[0].recipe.label}}</h2>
+        <br>
+    </div>
+    <body>
+    <div *ngIf="foundRecipe[0] !== undefined">
+            <div class="col1">
+                <img src="{{foundRecipe[0].recipe.image}}">
+            </div>    
+            <br>
+            <br>
+            <h3>Recipe Details:</h3>
+            <br>
+                <div class="column">
+                    <h5>General Information</h5>
+                    <br>
+                    <p><strong>Cuisine Type:</strong></p>
+                    <div *ngFor="let c of foundRecipe[0].recipe.cuisineType">
+                        <p>{{c}}</p>
+                    </div>
+                    <p><strong>Calories:</strong></p>
+                    <p>{{foundRecipe[0].recipe.calories | number}}</p>
+                    <p><strong>Servings:</strong></p>
+                    <p>{{foundRecipe[0].recipe.yield}}</p>
+                    <p><strong>Instructions:</strong></p>
+                    <a href="{{foundRecipe[0].recipe.url}}"><p>{{foundRecipe[0].recipe.url}}</p></a>
+                </div>
+                <div class="column">
+                    <h5>Health Information</h5>
+                    <br>
+                    <div *ngFor="let h of foundRecipe[0].recipe.healthLabels; index as i">
+                        <div *ngIf="i <9">
+                            <p>{{h}}</p>
+                        </div>
+                    </div>
+                    <div class="buttons">
+                        <br>
+                        <br>
+                            <button (click)="onBack()" class="btn btn-light btn-outline-dark">Back to Recipe Search</button>
+                        <br>
+                        <br>
+                            <button (click)="checkUser()"  class="btn btn-light btn-outline-dark" id="btn2">Add to Favorites</button>
+                      
+                     </div>
+                     <br>
+                     <br>
+                     <br>
+                     <br>
+                </div>
+                <div class="column">
+                <h5>Ingredients</h5>
+                <br>
+                    <div *ngFor="let ing of foundRecipe[0].recipe.ingredientLines; index as i">
+                        <p>{{ing}}</p>
+                    </div>
+            </div>
+        
+        </div> 
+    </body>
+</html>

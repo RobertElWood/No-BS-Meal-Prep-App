@@ -1,49 +1,66 @@
 <html>
-    <body>
-
-<div *ngIf="user === null || loggedIn === false">
-    <p>Please log in to view this favorited recipe!</p>
-</div>
-
-
-    <div *ngIf="user !== null || loggedIn !== false">
-        <h2>Recipe Details:</h2>
-
-        <div *ngIf="foundRecipe[0] !== undefined">
-                <h5>{{foundRecipe[0].recipe.label}}</h5>
-            <br>
-                <img src="{{foundRecipe[0].recipe.image}}">    
-            <br>
-            <br>
-                <p>Cuisine Type:</p>
-                <div *ngFor="let c of foundRecipe[0].recipe.cuisineType">
-                    <p>{{c}}</p>
-                </div>
-            <br>
-                <p>Calories: {{foundRecipe[0].recipe.calories | number}}</p>
-            <br>
-                <p>Servings: {{foundRecipe[0].recipe.yield}}</p>
-            <br>
-                <div *ngFor="let ing of foundRecipe[0].recipe.ingredientLines; index as i">
-                    <p><button (click)="addShoppingIngredient(ing)" (click)="addOneToGroceryList()">Add to Grocery List</button>Ingredient {{i+1}}: {{ing}}</p>
-                </div>
-            <br>
-                <button (click)="addAllIngredients()">Add All to Grocery List</button>
-            <br>
-            <br>
-            <br>
-                <p>Instructions:</p>
-                <a href="{{foundRecipe[0].recipe.url}}">{{foundRecipe[0].recipe.url}}</a>
-            <br>
-            <br>
-                <button (click)="deleteOneFavRecipeView(foundRecipe[0].recipe.label)">Delete from Favorites</button>
-            <br>
-            <br>
-                <button (click)="onBack()">Back to Planner</button>
-            <br>
-            <br>
-        </div>
+    <div class="recipe-title">
+        <h2>{{foundRecipe[0].recipe.label}}</h2>
+        <br>
     </div>
-
+    <body>
+    <div *ngIf="foundRecipe[0] !== undefined">
+            <div class="col1">
+                <img src="{{foundRecipe[0].recipe.image}}">
+            </div>    
+            <br>
+            <br>
+            <h3>Recipe Details:</h3>
+            <br>
+                <div class="column">
+                    <h5>General Information</h5>
+                    <br>
+                    <p><strong>Cuisine Type:</strong></p>
+                    <div *ngFor="let c of foundRecipe[0].recipe.cuisineType">
+                        <p>{{c}}</p>
+                    </div>
+                    <p><strong>Calories:</strong></p>
+                    <p>{{foundRecipe[0].recipe.calories | number}}</p>
+                    <p><strong>Servings:</strong></p>
+                    <p>{{foundRecipe[0].recipe.yield}}</p>
+                    <p><strong>Instructions:</strong></p>
+                    <a href="{{foundRecipe[0].recipe.url}}"><p>{{foundRecipe[0].recipe.url}}</p></a>
+                </div>
+                <div class="column">
+                    <h5>Health Information</h5>
+                    <br>
+                    <div *ngFor="let h of foundRecipe[0].recipe.healthLabels; index as i">
+                        <div *ngIf="i <9">
+                            <p>{{h}}</p>
+                        </div>
+                    </div>
+                    <div class="buttons">
+                        <br>
+                        <br>
+                            <button (click)="deleteOneFavRecipeView(foundRecipe[0].recipe.label)" class="btn btn-light btn-outline-dark">Delete from Favorites</button>
+                        <br>
+                        <br>
+                            <button (click)="onBack()"  class="btn btn-light btn-outline-dark" id="btn2">Back to Planner</button>
+                     </div>
+                     <br>
+                     <br>
+                     <br>
+                     <br>
+                </div>
+                <div class="column">
+                <h5>Ingredients</h5>
+                <div class="btn3">
+                <button (click)="addAllIngredients()" class= "btn btn-warning btn-sm btn-outline-dark">Add All to Grocery List</button>
+                </div>
+                <br>
+                    <div *ngFor="let ing of foundRecipe[0].recipe.ingredientLines; index as i">
+                        <p>{{ing}}<br><button (click)="addShoppingIngredient(ing)" (click)="addOneToGroceryList()" class= "btn btn-light btn-sm btn-outline-dark">Add to Grocery List</button></p>
+                    </div>
+                    <br>
+                    <br>
+                    <br>
+                    <br>
+                </div>
+        </div> 
     </body>
 </html>

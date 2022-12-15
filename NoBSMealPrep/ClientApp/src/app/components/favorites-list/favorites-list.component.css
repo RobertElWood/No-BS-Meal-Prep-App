@@ -10,6 +10,30 @@ body {
     Color:black;
     border:1px solid black;
 }
+
+.backsplash{
+    background-color: #bfcc94;
+    font-weight: bold;
+    text-align: center;
+}
+
+.heading{
+    padding-top: 30px;
+}
+
+.subheading{
+    font-weight: bold;
+    text-align: center;
+}
+
+p{
+    font-weight: normal;
+}
+
+h6{
+    font-weight: bold;
+}
+
 th{
     text-align:center;
     width: 250px;
@@ -30,4 +54,19 @@ th{
 }
 .body, h1 {
     color:lightgreen;
+}
+
+.btn-danger {
+    background-color: #8e0303;
+    color: white;
+}
+
+.calendar{
+    text-align: center;
+}
+
+.table {
+    width: 80vw;
+    margin-left: auto;
+    margin-right: auto;
 }

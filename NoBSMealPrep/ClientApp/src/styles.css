@@ -1,6 +1,14 @@
 /* You can add global styles to this file, and also import other style files */
 
 /* Provide sufficient contrast against white background */
+* {
+  font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+}
+
+html {
+  background-color: #F0F4EF;
+}
+
 a {
   color: #0366d6;
 }

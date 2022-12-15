@@ -13,7 +13,7 @@
               <li class="nav-item" [routerLinkActive]="['link-active']">
                 <a class="nav-link text-dark" style="font-size: 20px" [routerLink]="['/recipe-list']"
                   ><strong>Search Recipes</strong></a>
-              </li>
+              </li>    
               <li class="nav-item" [routerLinkActive]="['link-active']">
                 <div *ngIf="!loggedIn">
                 <a class="nav-link text-dark" style="font-size: 20px" [routerLink]="['/favorites-list']"
@@ -28,12 +28,12 @@
                 <a class="nav-link text-dark" style="font-size: 20px" [routerLink]="['/grocery-list']"
                   ><strong>Grocery List</strong></a>
               </li>
-              <li class="nav-item">
+              <li class="nav-item google-btn">
                 <asl-google-signin-button *ngIf="!loggedIn" type='icon' class="align-text-bottom" size='large'></asl-google-signin-button>
                 <button class="btn btn-outline-dark" *ngIf="loggedIn"  (click)="signOut()">Sign Out
                 </button>
                 <!--https://getbootstrap.com/docs/4.0/utilities/vertical-align/-->
-                </li>            
+                </li>        
             </ul>
           </div>
   </nav>

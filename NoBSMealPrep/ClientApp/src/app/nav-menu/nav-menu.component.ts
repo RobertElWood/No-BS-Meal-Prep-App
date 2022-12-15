@@ -2,8 +2,7 @@ import { SocialAuthService, SocialUser } from '@abacritt/angularx-social-login';
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { User } from 'src/interfaces/User';
-import { FavoritesListComponent } from '../components/favorites-list/favorites-list.component';
-import { UserDbService } from '../services/user-db.service';
+
 
 
 @Component({
